@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
 import { convertVpToCurrency, handleWalletError } from "@/utils/walletUtils";
+import { toast } from "sonner";
 
 interface WalletContextType {
   connected: boolean;
