@@ -1,73 +1,121 @@
-# Welcome to your Lovable project
+# Minniemissions - Fan Engagement dApp
 
-## Project info
+![Minniemissions Logo](https://i.imgur.com/6UOr4Kl.png)
 
-**URL**: https://lovable.dev/projects/e5c4df93-5a2b-4b59-bc52-f5673f231419
+Minniemissions is a full-stack decentralized application (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their fans through missions, rewards, and referrals.
 
-## How can I edit this code?
+## 🎯 Overview
 
-There are several ways of editing your application.
+Minniemissions allows fans to:
 
-**Use Lovable**
+- Connect their wallet (Polkadot.js)
+- View and complete missions (e.g., social shares, event attendance, content creation)
+- Earn Vibe Points (VP) tracked on-chain
+- Get paid in DOT (or USDC via Moonbeam) for completing missions
+- Track referrals via custom QR codes linked to their fan ID
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e5c4df93-5a2b-4b59-bc52-f5673f231419) and start prompting.
+While artists and brands can:
 
-Changes made via Lovable will be committed automatically to this repo.
+- Create missions with customized rewards
+- Set expiration dates and categories for missions
+- View detailed analytics and leaderboards
+- Track engagement and referral metrics
 
-**Use your preferred IDE**
+## 🧱 Technology Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Frontend (React)
+- React with TypeScript
+- TailwindCSS for styling
+- shadcn/ui component library
+- QR code generation for referrals
+- Wallet connection (Polkadot.js)
+- Recharts for data visualization
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Smart Contract Layer (Substrate/Moonbeam)
+**Note:** The current implementation includes frontend UI mockups. The smart contract would be written in Ink! and deployed to a Substrate node or Moonbeam in a full implementation.
 
-Follow these steps:
+Key contract functions:
+- `split_payment(fan)` - Distribute funds among artist, treasury, and fan
+- `get_vp(fan)` - Retrieve on-chain Vibe Points
+- `update_artist()` and `update_treasury()` - Admin-only functions
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Backend
+**Note:** The current implementation uses mock data. A full implementation would include:
+- Node.js (Express/NestJS) backend
+- QR code generation and tracking
+- Referral system with VP boosts
+- PostgreSQL database for missions, users, referrals, and scan tracking
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🚀 Getting Started
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Prerequisites
+- Node.js 14.x or later
+- npm or yarn
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/your-username/minniemissions.git
+cd minniemissions
 ```
 
-**Edit a file directly in GitHub**
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+3. Start the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-**Use GitHub Codespaces**
+4. Open your browser and navigate to `http://localhost:8080`
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 📱 Features
 
-## What technologies are used for this project?
+### For Fans
+- **Wallet Connection:** Connect to Polkadot ecosystem via wallet
+- **Mission Dashboard:** Browse and complete available missions
+- **Profile Page:** Track VP, completed missions, and referral stats
+- **QR Code Generation:** Share custom QR codes to earn referral bonuses
+- **Leaderboard:** Compete with other fans for top VP spots
 
-This project is built with:
+### For Artists/Admins
+- **Mission Creation:** Easily create and manage missions
+- **Analytics Dashboard:** Track engagement metrics and VP distribution
+- **User Management:** View detailed user stats and activity
+- **Reward Configuration:** Set VP rewards for different mission types
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🌐 Pages
 
-## How can I deploy this project?
+- `/` - Home page with CTA and branding
+- `/missions` - Fan mission dashboard
+- `/admin` - Admin mission creator and analytics
+- `/leaderboard` - Top VP earners
+- `/profile` - User profile with VP, missions, and referrals
+- `/qr/:id` - Dynamic QR redirect for tracking fan referrals
 
-Simply open [Lovable](https://lovable.dev/projects/e5c4df93-5a2b-4b59-bc52-f5673f231419) and click on Share -> Publish.
+## 🔮 Future Development
 
-## Can I connect a custom domain to my Lovable project?
+- **Ink! Smart Contract Integration:** Complete implementation of the smart contract layer
+- **Backend API Development:** Build out the Node.js backend with database integration
+- **IPFS Storage:** Add IPFS storage for mission proof submissions
+- **Streak Tracking:** Implement bonus rewards for consistent mission completion
+- **Advanced Analytics:** Provide deeper insights for artists and brands
+- **Mobile App:** Develop a companion mobile application
 
-Yes, you can!
+## 📝 License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 🙏 Acknowledgments
+
+- Polkadot ecosystem for enabling Web3 innovation
+- The Substrate community for documentation and support
+- [shadcn/ui](https://ui.shadcn.com/) for the beautiful React components
+- [TailwindCSS](https://tailwindcss.com/) for the styling framework

@@ -52,6 +52,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Custom colors for Minniemissions
+				minnie: {
+					purple: '#8B5CF6',
+					blue: '#3B82F6',
+					dark: '#1A1F2C',
+					light: '#D6BCFA',
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
