@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useWallet } from "@/contexts/WalletContext";
 import { Layout } from "@/components/Layout";
@@ -7,6 +8,7 @@ import { Trophy, Award, ListChecks, Coins, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { convertVpToDot, convertVpToUsdc } from "@/utils/walletUtils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { getActiveMissions } from "@/data/mockData";
 
 const Home = () => {
   const { connected, connect, vibePoints, convertToToken, isConverting } = useWallet();
