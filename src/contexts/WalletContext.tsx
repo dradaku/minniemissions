@@ -1,6 +1,7 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { web3Accounts, web3Enable } from '@polkadot/extension-dapp';
+import { convertVpToCurrency, handleWalletError } from "@/utils/walletUtils";
 
 interface WalletContextType {
   connected: boolean;
@@ -8,6 +9,8 @@ interface WalletContextType {
   vibePoints: number;
   connect: () => Promise<void>;
   disconnect: () => void;
+  convertToToken: (vpAmount: number, toCurrency: 'DOT' | 'USDC') => Promise<boolean>;
+  isConverting: boolean;
 }
 
 interface WalletProviderProps {
@@ -20,6 +23,7 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
   const [connected, setConnected] = useState(false);
   const [account, setAccount] = useState<string | null>(null);
   const [vibePoints, setVibePoints] = useState(0);
+  const [isConverting, setIsConverting] = useState(false);
 
   const connect = async () => {
     try {
@@ -34,7 +38,7 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
       const allAccounts = await web3Accounts();
       
       if (allAccounts.length === 0) {
-        throw new Error('No accounts found. Please create an account in the Polkadot extension.');
+        throw new Error('No accounts found. Please create an account in the Polkadot wallet.');
       }
 
       // Use the first account for now - in a real app, you might want to let users choose
@@ -49,6 +53,9 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
 
     } catch (error) {
       console.error("Failed to connect wallet:", error);
+      if (error instanceof Error) {
+        handleWalletError(error);
+      }
       throw error;
     }
   };
@@ -57,6 +64,42 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
     setAccount(null);
     setVibePoints(0);
     setConnected(false);
+  };
+
+  const convertToToken = async (vpAmount: number, toCurrency: 'DOT' | 'USDC'): Promise<boolean> => {
+    if (!account) {
+      toast.error('Wallet not connected', { 
+        description: 'Please connect your wallet to convert VP.',
+        duration: 3000,
+      });
+      return false;
+    }
+    
+    if (vpAmount <= 0 || vpAmount > vibePoints) {
+      toast.error('Invalid conversion amount', { 
+        description: 'Please enter a valid amount to convert.',
+        duration: 3000,
+      });
+      return false;
+    }
+    
+    setIsConverting(true);
+    
+    try {
+      const success = await convertVpToCurrency(vpAmount, toCurrency, account);
+      
+      if (success) {
+        // Update VP balance
+        setVibePoints(prev => prev - vpAmount);
+      }
+      
+      return success;
+    } catch (error) {
+      console.error('Conversion error:', error);
+      return false;
+    } finally {
+      setIsConverting(false);
+    }
   };
 
   // Check if wallet was previously connected
@@ -88,6 +131,8 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
         vibePoints,
         connect,
         disconnect,
+        convertToToken,
+        isConverting,
       }}
     >
       {children}

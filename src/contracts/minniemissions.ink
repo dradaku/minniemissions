@@ -16,6 +16,14 @@ mod minniemissions {
         last_active: Timestamp,
     }
 
+    /// Token types for conversion
+    #[derive(scale::Decode, scale::Encode, Debug, PartialEq, Eq, Copy, Clone)]
+    #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
+    pub enum TokenType {
+        DOT,
+        USDC,
+    }
+
     /// The Minniemissions contract storage
     #[ink(storage)]
     pub struct Minniemissions {
@@ -33,6 +41,10 @@ mod minniemissions {
         treasury_fee: u32,
         /// Artist fee percentage (in basis points, e.g., 6000 = 60%)
         artist_fee: u32,
+        /// VP to DOT conversion rate (1 DOT = X VP)
+        vp_to_dot_rate: u64,
+        /// VP to USDC conversion rate (1 USDC = X VP)
+        vp_to_usdc_rate: u64,
     }
 
     /// Events emitted by the contract
@@ -51,6 +63,15 @@ mod minniemissions {
         amount: Balance,
     }
 
+    #[ink(event)]
+    pub struct VpConverted {
+        #[ink(topic)]
+        user: AccountId,
+        vp_amount: u64,
+        token_type: TokenType,
+        token_amount: Balance,
+    }
+
     /// Errors that can occur during contract execution
     #[derive(Debug, PartialEq, Eq, scale::Encode, scale::Decode)]
     #[cfg_attr(feature = "std", derive(scale_info::TypeInfo))]
@@ -58,7 +79,9 @@ mod minniemissions {
         NotOwner,
         InvalidFeePercentage,
         InsufficientFunds,
+        InsufficientVibePoints,
         UserNotFound,
+        InvalidConversionRate,
     }
 
     impl Minniemissions {
@@ -80,6 +103,8 @@ mod minniemissions {
                 total_vibe_points: 0,
                 treasury_fee,
                 artist_fee,
+                vp_to_dot_rate: 1000,  // 1000 VP = 1 DOT
+                vp_to_usdc_rate: 100,  // 100 VP = 1 USDC
             }
         }
 
@@ -222,6 +247,98 @@ mod minniemissions {
             
             Ok(())
         }
+
+        /// Update conversion rates (admin only)
+        #[ink(message)]
+        pub fn update_conversion_rates(&mut self, vp_to_dot: u64, vp_to_usdc: u64) -> Result<(), Error> {
+            if self.env().caller() != self.owner {
+                return Err(Error::NotOwner);
+            }
+            
+            if vp_to_dot == 0 || vp_to_usdc == 0 {
+                return Err(Error::InvalidConversionRate);
+            }
+            
+            self.vp_to_dot_rate = vp_to_dot;
+            self.vp_to_usdc_rate = vp_to_usdc;
+            Ok(())
+        }
+
+        /// Convert VP to DOT
+        #[ink(message)]
+        pub fn convert_vp_to_dot(&mut self, vp_amount: u64) -> Result<(), Error> {
+            let caller = self.env().caller();
+            
+            // Get the user or return error
+            let mut user_data = self.users.get(caller).ok_or(Error::UserNotFound)?;
+            
+            // Check if user has enough VP
+            if user_data.vibe_points < vp_amount {
+                return Err(Error::InsufficientVibePoints);
+            }
+            
+            // Calculate DOT amount
+            let dot_amount = (vp_amount as u128 * 1_000_000_000_000) / self.vp_to_dot_rate as u128;
+            
+            // Update user's VP
+            user_data.vibe_points -= vp_amount;
+            self.users.insert(caller, &user_data);
+            self.total_vibe_points -= vp_amount;
+            
+            // Emit event
+            self.env().emit_event(VpConverted {
+                user: caller,
+                vp_amount,
+                token_type: TokenType::DOT,
+                token_amount: dot_amount,
+            });
+            
+            // Note: In a real implementation, this would trigger a cross-chain call
+            // to transfer DOT to the user's address on the Polkadot Relay Chain
+            
+            Ok(())
+        }
+
+        /// Convert VP to USDC
+        #[ink(message)]
+        pub fn convert_vp_to_usdc(&mut self, vp_amount: u64) -> Result<(), Error> {
+            let caller = self.env().caller();
+            
+            // Get the user or return error
+            let mut user_data = self.users.get(caller).ok_or(Error::UserNotFound)?;
+            
+            // Check if user has enough VP
+            if user_data.vibe_points < vp_amount {
+                return Err(Error::InsufficientVibePoints);
+            }
+            
+            // Calculate USDC amount (assuming 6 decimals for USDC)
+            let usdc_amount = (vp_amount as u128 * 1_000_000) / self.vp_to_usdc_rate as u128;
+            
+            // Update user's VP
+            user_data.vibe_points -= vp_amount;
+            self.users.insert(caller, &user_data);
+            self.total_vibe_points -= vp_amount;
+            
+            // Emit event
+            self.env().emit_event(VpConverted {
+                user: caller,
+                vp_amount,
+                token_type: TokenType::USDC,
+                token_amount: usdc_amount,
+            });
+            
+            // Note: In a real implementation, this would trigger a cross-chain call
+            // to Moonbeam to transfer USDC to the user's address
+            
+            Ok(())
+        }
+
+        /// Get current conversion rates
+        #[ink(message)]
+        pub fn get_conversion_rates(&self) -> (u64, u64) {
+            (self.vp_to_dot_rate, self.vp_to_usdc_rate)
+        }
     }
 
     #[cfg(test)]
@@ -284,6 +401,29 @@ mod minniemissions {
             // Add more points
             contract.add_vibe_points(accounts.django, 2, 50).unwrap();
             assert_eq!(contract.get_vp(accounts.django), 150);
+        }
+
+        #[ink::test]
+        fn convert_vp_works() {
+            let accounts = default_accounts();
+            set_sender(accounts.alice);
+            
+            let mut contract = Minniemissions::new(accounts.bob, accounts.charlie, 1000, 6000);
+            
+            // Add vibe points
+            contract.add_vibe_points(accounts.alice, 1, 1000).unwrap();
+            assert_eq!(contract.get_vp(accounts.alice), 1000);
+            
+            // Convert VP to DOT
+            assert_eq!(contract.convert_vp_to_dot(500), Ok(()));
+            assert_eq!(contract.get_vp(accounts.alice), 500);
+            
+            // Convert VP to USDC
+            assert_eq!(contract.convert_vp_to_usdc(200), Ok(()));
+            assert_eq!(contract.get_vp(accounts.alice), 300);
+            
+            // Try to convert more VP than available
+            assert_eq!(contract.convert_vp_to_dot(500), Err(Error::InsufficientVibePoints));
         }
     }
 }
