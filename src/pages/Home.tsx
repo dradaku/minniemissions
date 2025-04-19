@@ -55,7 +55,7 @@ const Home = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-bold mb-2">How It Works</h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Minniemissions helps artists engage with their fans through rewarding missions and on-chain tracking.
+            Minniemissions helps artists and brands engage with their fans through rewarding missions and on-chain tracking.
           </p>
         </div>
 
