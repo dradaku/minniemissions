@@ -1,10 +1,8 @@
-
 import { Link } from "react-router-dom";
 import { useWallet } from "@/contexts/WalletContext";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
-import { MissionCard } from "@/components/MissionCard";
-import { getActiveMissions } from "@/data/mockData";
+import { FeaturedMissions } from "@/components/FeaturedMissions";
 import { Trophy, Award, ListChecks, Coins, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { convertVpToDot, convertVpToUsdc } from "@/utils/walletUtils";
@@ -100,6 +98,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Featured Missions Section */}
+      <FeaturedMissions />
 
       {/* VP to Token Conversion Section */}
       {connected && (
@@ -224,31 +225,6 @@ const Home = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      )}
-
-      {/* Featured Missions */}
-      {connected && (
-        <section className="py-16">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-2xl font-bold">Featured Missions</h2>
-            <Link to="/missions" className="text-minnie-purple hover:underline">
-              View All
-            </Link>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {featuredMissions.map((mission) => (
-              <MissionCard
-                key={mission.id}
-                mission={mission}
-                onComplete={() => {
-                  // This would trigger a transaction in a real app
-                  alert(`Mission ${mission.id} completed!`);
-                }}
-              />
-            ))}
           </div>
         </section>
       )}
