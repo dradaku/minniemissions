@@ -28,32 +28,14 @@ const Missions = () => {
 
   // Handler for mission completion
   const handleCompleteMission = (missionId: string) => {
+    if (!connected) {
+      // Prompt to connect wallet if trying to complete mission while disconnected
+      connect();
+      return;
+    }
     // In a real app, this would call a smart contract function
     alert(`Mission ${missionId} completed!`);
   };
-
-  if (!connected) {
-    return (
-      <Layout>
-        <div className="min-h-[60vh] flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 bg-minnie-purple/10 rounded-full flex items-center justify-center mb-4">
-            <Search className="h-8 w-8 text-minnie-purple" />
-          </div>
-          <h1 className="text-3xl font-bold mb-4">Connect to View Missions</h1>
-          <p className="text-gray-600 max-w-md mb-8">
-            You need to connect your wallet to view and complete missions.
-          </p>
-          <Button 
-            size="lg"
-            className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white"
-            onClick={connect}
-          >
-            Connect Wallet
-          </Button>
-        </div>
-      </Layout>
-    );
-  }
 
   return (
     <Layout>
@@ -61,6 +43,11 @@ const Missions = () => {
         <h1 className="text-3xl font-bold mb-2">Available Missions</h1>
         <p className="text-gray-600">
           Complete missions to earn Vibe Points and exclusive rewards.
+          {!connected && (
+            <span className="ml-1 text-minnie-purple">
+              Connect your wallet to start earning!
+            </span>
+          )}
         </p>
       </div>
 
@@ -98,6 +85,7 @@ const Missions = () => {
               key={mission.id}
               mission={mission}
               onComplete={handleCompleteMission}
+              requiresWallet={!connected}
             />
           ))}
         </div>
@@ -117,3 +105,4 @@ const Missions = () => {
 };
 
 export default Missions;
+

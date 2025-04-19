@@ -9,9 +9,15 @@ interface MissionCardProps {
   mission: Mission;
   onComplete: (missionId: string) => void;
   isCompleted?: boolean;
+  requiresWallet?: boolean;
 }
 
-export const MissionCard = ({ mission, onComplete, isCompleted = false }: MissionCardProps) => {
+export const MissionCard = ({ 
+  mission, 
+  onComplete, 
+  isCompleted = false,
+  requiresWallet = false 
+}: MissionCardProps) => {
   const handleComplete = () => {
     onComplete(mission.id);
   };
@@ -80,13 +86,18 @@ export const MissionCard = ({ mission, onComplete, isCompleted = false }: Missio
         ) : (
           <Button 
             variant="default" 
-            className="w-full bg-gradient-to-r from-minnie-purple to-minnie-blue text-white hover:opacity-90" 
+            className={`w-full ${
+              requiresWallet 
+                ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                : 'bg-gradient-to-r from-minnie-purple to-minnie-blue text-white hover:opacity-90'
+            }`}
             onClick={handleComplete}
           >
-            Complete Mission
+            {requiresWallet ? 'Connect Wallet to Complete' : 'Complete Mission'}
           </Button>
         )}
       </CardFooter>
     </Card>
   );
 };
+
