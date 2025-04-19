@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useWallet } from "@/contexts/WalletContext";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,10 @@ export const Header = () => {
     } catch (error) {
       handleWalletError(error as Error);
     }
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(prev => !prev);
   };
 
   return (
