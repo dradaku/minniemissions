@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Layout } from "@/components/Layout";
 import { toast } from "@/hooks/use-toast";
-import { Mail, Lock, Github, Google } from "lucide-react";
+import { Mail, Lock, Github, ArrowRight } from "lucide-react";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -77,25 +77,25 @@ const Auth = () => {
 
           <form onSubmit={handleEmailAuth} className="mt-8 space-y-6">
             <div className="space-y-4">
-              <div>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   type="email"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
-                  icon={<Mail className="h-4 w-4 text-gray-400" />}
                   required
                 />
               </div>
-              <div>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 transform text-gray-400" />
                 <Input
                   type="password"
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="pl-10"
-                  icon={<Lock className="h-4 w-4 text-gray-400" />}
                   required
                 />
               </div>
@@ -129,7 +129,7 @@ const Auth = () => {
               onClick={() => handleSocialAuth("google")}
               className="w-full"
             >
-              <Google className="mr-2 h-4 w-4" />
+              <ArrowRight className="mr-2 h-4 w-4" />
               Google
             </Button>
           </div>
