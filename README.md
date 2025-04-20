@@ -2,7 +2,7 @@
 
 ![minniemissions logo easya](https://github.com/user-attachments/assets/77246a5f-68d5-4bc7-afb8-bf285263882a)
 
-Minniemissions is a full-stack Web3 Street Team (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their fans through missions, rewards, and referrals.
+Minniemissions is a Web3 Street Team (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their fans through missions, rewards, and referrals.
 
 ## 🎯 Overview
 
@@ -118,12 +118,13 @@ These screenshots demonstrate the key features of Minniemissions, including the 
 
 ## 🔮 Future Development
 
-- **Ink! Smart Contract Integration:** Complete implementation of the smart contract layer
-- **Backend API Development:** Build out the Node.js backend with database integration
-- **IPFS Storage:** Add IPFS storage for mission proof submissions
-- **Streak Tracking:** Implement bonus rewards for consistent mission completion
-- **Advanced Analytics:** Provide deeper insights for artists and brands
-- **Mobile App:** Develop a companion mobile application
+- **Ink! Smart contract integration:** Complete implementation of the smart contract layer
+- **Backend API development:** Build out the Node.js backend with database integration
+- **IPFS storage:** Add IPFS storage for mission proof submissions
+- **Streak tracking:** Implement bonus rewards for consistent mission completion
+- **Advanced analytics:** Provide deeper insights for artists and brands
+- **Mobile app:** Develop a companion mobile application
+- **NFC membership card integrations:** Enable users access to NFC cards which they can use at IRL events for extra perks and discounts
 
 ## 📝 License
 
@@ -132,7 +133,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🙏 Acknowledgments
 
 - Polkadot ecosystem for enabling Web3 innovation
-- EasyA for the hackathon - learnt a lot and excited to continue building!
+- EasyA for the hackathon - learnt a lot and excited to continue building! #360DaysOfPolkadot
 - The Substrate community for documentation and support
 - [shadcn/ui](https://ui.shadcn.com/) for the beautiful React components
 - [TailwindCSS](https://tailwindcss.com/) for the styling framework
