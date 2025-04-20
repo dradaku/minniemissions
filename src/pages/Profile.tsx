@@ -7,45 +7,165 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MissionCard } from '@/components/MissionCard';
-import { getUserByAddress, getUserMissions } from '@/data/mockData';
 import { Award, Star, Users, Share2, User } from 'lucide-react';
 
 const Profile = () => {
   const { connected, account, vibePoints, connect } = useWallet();
   const [activeTab, setActiveTab] = useState('overview');
   
-  // Get user data - in a real app, this would come from the backend
-  const userAddress = account || '';
-  const user = getUserByAddress(userAddress);
-  const userMissions = user ? getUserMissions(user.id) : [];
-  
-  // Split missions into completed and available
-  const completedMissions = userMissions.filter(mission => 
-    user?.completedMissions.includes(mission.id)
-  );
-  
-  const availableMissions = userMissions.filter(mission => 
-    !user?.completedMissions.includes(mission.id)
-  );
+  const demoMissions = [
+    {
+      id: 'demo1',
+      title: 'Welcome Mission',
+      description: 'Complete your first mission by connecting your wallet',
+      reward: 50,
+      imageUrl: 'https://images.unsplash.com/photo-1579762715118-a6f1d4b934f1'
+    },
+    {
+      id: 'demo2',
+      title: 'Share & Earn',
+      description: 'Share your referral link with friends',
+      reward: 25,
+      imageUrl: 'https://images.unsplash.com/photo-1611605698335-8b1569810432'
+    }
+  ];
 
   if (!connected) {
     return (
       <Layout>
-        <div className="min-h-[60vh] flex flex-col items-center justify-center text-center">
-          <div className="w-16 h-16 bg-minnie-purple/10 rounded-full flex items-center justify-center mb-4">
-            <User className="h-8 w-8 text-minnie-purple" />
+        <div className="max-w-6xl mx-auto">
+          {/* Demo Profile Header */}
+          <div className="mb-8 bg-gradient-to-r from-minnie-purple to-minnie-blue rounded-xl p-6 md:p-8 text-white">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-4xl font-bold">
+                D
+              </div>
+              <div className="text-center md:text-left">
+                <h1 className="text-2xl md:text-3xl font-bold mb-1">Demo Profile</h1>
+                <p className="text-white/80 text-sm mb-3">
+                  Connect your wallet to personalize your profile
+                </p>
+                <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                  <div className="bg-white/20 rounded-full px-4 py-1 flex items-center">
+                    <span className="mr-1">⚡</span>
+                    <span className="font-semibold">0 Vibe Points</span>
+                  </div>
+                  <div className="bg-white/20 rounded-full px-4 py-1 flex items-center">
+                    <Award className="w-4 h-4 mr-1" />
+                    <span className="font-semibold">0 Missions</span>
+                  </div>
+                  <Button 
+                    size="sm"
+                    className="bg-white text-minnie-purple hover:bg-white/90"
+                    onClick={connect}
+                  >
+                    Connect Wallet
+                  </Button>
+                </div>
+              </div>
+            </div>
           </div>
-          <h1 className="text-3xl font-bold mb-4">Connect to View Profile</h1>
-          <p className="text-gray-600 max-w-md mb-8">
-            You need to connect your wallet to view your profile and manage your rewards.
-          </p>
-          <Button 
-            size="lg"
-            className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white"
-            onClick={connect}
-          >
-            Connect Wallet
-          </Button>
+
+          {/* Demo Content */}
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="mb-8">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="missions">Missions</TabsTrigger>
+              <TabsTrigger value="referrals">Referrals</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="overview">
+              <div className="grid md:grid-cols-2 gap-8">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Welcome to Minniemissions!</CardTitle>
+                    <CardDescription>
+                      Connect your wallet to start earning Vibe Points and completing missions.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                      <div className="w-8 h-8 bg-minnie-purple/10 rounded-full flex items-center justify-center">
+                        <Star className="w-4 h-4 text-minnie-purple" />
+                      </div>
+                      <div>
+                        <p className="font-medium">Complete Missions</p>
+                        <p className="text-sm text-gray-600">Earn rewards by completing various tasks</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
+                      <div className="w-8 h-8 bg-minnie-purple/10 rounded-full flex items-center justify-center">
+                        <Users className="w-4 h-4 text-minnie-purple" />
+                      </div>
+                      <div>
+                        <p className="font-medium">Refer Friends</p>
+                        <p className="text-sm text-gray-600">Earn bonus points through referrals</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-minnie-purple to-minnie-blue text-white"
+                      onClick={connect}
+                    >
+                      Get Started
+                    </Button>
+                  </CardFooter>
+                </Card>
+
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Available Missions</h2>
+                  <div className="space-y-4">
+                    {demoMissions.map(mission => (
+                      <Card key={mission.id}>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="flex justify-between items-center">
+                            <span>{mission.title}</span>
+                            <span className="text-minnie-purple">⚡ {mission.reward}</span>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-gray-600 text-sm">{mission.description}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="missions">
+              <div className="text-center py-12">
+                <Star className="h-12 w-12 text-gray-300 mb-4 mx-auto" />
+                <h3 className="text-xl font-medium mb-2">Connect to View Missions</h3>
+                <p className="text-gray-500 mb-6">
+                  Connect your wallet to start completing missions and earning rewards.
+                </p>
+                <Button 
+                  onClick={connect}
+                  className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white"
+                >
+                  Connect Wallet
+                </Button>
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="referrals">
+              <div className="text-center py-12">
+                <Users className="h-12 w-12 text-gray-300 mb-4 mx-auto" />
+                <h3 className="text-xl font-medium mb-2">Connect to View Referrals</h3>
+                <p className="text-gray-500 mb-6">
+                  Connect your wallet to get your referral code and start earning bonus points.
+                </p>
+                <Button 
+                  onClick={connect}
+                  className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white"
+                >
+                  Connect Wallet
+                </Button>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
       </Layout>
     );
