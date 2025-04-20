@@ -105,6 +105,10 @@ yarn dev
 <img width="1512" alt="Screenshot 2025-04-20 at 10 20 47" src="https://github.com/user-attachments/assets/4315e1ff-f91c-494a-89f8-41411bcbdb13" />
 
 
+### Leaderboard for gamification
+<img width="1512" alt="Screenshot 2025-04-20 at 12 41 48" src="https://github.com/user-attachments/assets/dc5915d4-5374-4b2a-9e5e-61371b6b6156" />
+
+
 These screenshots demonstrate the key features of Minniemissions, including the home page interface, Vibe Points conversion process, and successful token conversion.
 
 ## 🌐 Pages
