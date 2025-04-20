@@ -11,7 +11,8 @@ export const mockAvailableMissions: Mission[] = [
     category: MissionCategory.CONTENT,
     status: MissionStatus.ACTIVE,
     createdAt: new Date(),
-    expiresAt: new Date(new Date().setDate(new Date().getDate() + 30))
+    expiresAt: new Date(new Date().setDate(new Date().getDate() + 30)),
+    completedBy: []
   },
   {
     id: 'mission2',
@@ -22,7 +23,8 @@ export const mockAvailableMissions: Mission[] = [
     category: MissionCategory.REFERRAL,
     status: MissionStatus.ACTIVE,
     createdAt: new Date(),
-    expiresAt: new Date(new Date().setDate(new Date().getDate() + 30))
+    expiresAt: new Date(new Date().setDate(new Date().getDate() + 30)),
+    completedBy: []
   }
 ];
 

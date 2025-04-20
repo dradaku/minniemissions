@@ -9,10 +9,10 @@ export interface Mission {
   imageUrl: string;
   isCompleted?: boolean;
   category: MissionCategory;
-  completedBy: string[]; // Made required to match mockData.ts definition
+  completedBy: string[]; // Required to match mockData.ts definition
   status: MissionStatus;
   createdAt: Date;
-  expiresAt?: Date;
+  expiresAt: Date | null; // Changed from optional to nullable to match mockData.ts
 }
 
 export interface UserProfile {
