@@ -94,13 +94,16 @@ yarn dev
 ## 📸 Application Screenshots
 
 ### Home Page
-![Home Page](public/lovable-uploads/51dba53d-f3c3-4c6e-9e06-33242b388bda.png)
+<img width="1512" alt="Screenshot 2025-04-20 at 11 05 31" src="https://github.com/user-attachments/assets/501ca0f9-5709-44a6-b3dc-8362ae2f6146" />
+
 
 ### Vibe Points Conversion
-![Vibe Points Conversion](public/lovable-uploads/14913f4f-9cee-41f5-ab0a-116680f668ca.png)
+<img width="1470" alt="Screenshot 2025-04-20 at 11 06 26" src="https://github.com/user-attachments/assets/cc84dbb9-8d85-41d5-bf4c-582d54916c1e" />
 
-### Conversion Successful
-![Conversion Successful](public/lovable-uploads/b884a35f-fa83-4cd3-b10e-b33a40455c00.png)
+
+### Missions
+<img width="1512" alt="Screenshot 2025-04-20 at 10 20 47" src="https://github.com/user-attachments/assets/4315e1ff-f91c-494a-89f8-41411bcbdb13" />
+
 
 These screenshots demonstrate the key features of Minniemissions, including the home page interface, Vibe Points conversion process, and successful token conversion.
 
