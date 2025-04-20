@@ -1,4 +1,3 @@
-
 import { Mission, UserProfile } from '../types/profile';
 import { MissionCategory, MissionStatus } from './mockData';
 
@@ -33,12 +32,12 @@ export const mockCompletedMissions: Mission[] = [
     title: 'Welcome Mission',
     description: 'Connected wallet successfully',
     reward: 10,
-    imageUrl: 'https://images.unsplash.com/photo-1614680376408-81e91ffe3db7', // Added required imageUrl
+    imageUrl: 'https://images.unsplash.com/photo-1614680376408-81e91ffe3db7',
     isCompleted: true,
     category: MissionCategory.SOCIAL,
     status: MissionStatus.COMPLETED,
     createdAt: new Date(),
-    completedBy: 'Demo User'
+    completedBy: ['Demo User']
   }
 ];
 

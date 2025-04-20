@@ -13,7 +13,6 @@ const QRRedirect = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    // In a real application, this would make an API call to track the scan
     const trackScan = async () => {
       try {
         setLoading(true);
@@ -21,15 +20,17 @@ const QRRedirect = () => {
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1500));
         
-        // Check if the user exists
+        // Check if the referrer exists
         const user = getUserByAddress(userId || '');
         if (!user) {
           setError('Invalid referral code');
           return;
         }
         
-        // In a real app, we would track this scan in the database
-        console.log(`QR code scanned: User ${userId}, Mission ${missionId || 'general'}`);
+        // In a real app, we would:
+        // 1. Store the referral information to credit the referrer later
+        // 2. Award VP points when the new user completes signup
+        console.log(`QR code scanned: Referrer ${userId}, Mission ${missionId || 'signup'}`);
         
         setSuccess(true);
       } catch (err) {
@@ -57,7 +58,7 @@ const QRRedirect = () => {
             <h1 className="text-2xl font-bold text-red-600 mb-2">Error</h1>
             <p className="text-gray-600 mb-6">{error}</p>
             <Link to="/">
-              <Button className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white">
+              <Button className="bg-gradient-to-r from-[#ea384c] to-black text-white">
                 Go to Homepage
               </Button>
             </Link>
@@ -69,19 +70,19 @@ const QRRedirect = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-green-600 mb-2">Referral Recorded!</h1>
+            <h1 className="text-2xl font-bold text-green-600 mb-2">You've Been Referred!</h1>
             <p className="text-gray-600 mb-6">
-              This referral has been successfully recorded. Want to join Minniemissions and start earning rewards?
+              Join Minniemissions now and both you and your referrer will earn Vibe Points when you complete your first mission!
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/">
-                <Button className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white">
-                  Join Now
+              <Link to="/auth">
+                <Button className="bg-gradient-to-r from-[#ea384c] to-black text-white">
+                  Sign Up Now
                 </Button>
               </Link>
               <Link to="/missions">
                 <Button variant="outline">
-                  View Missions
+                  View Available Missions
                 </Button>
               </Link>
             </div>
