@@ -4,7 +4,7 @@ export interface Mission {
   title: string;
   description: string;
   reward: number;
-  imageUrl?: string;
+  imageUrl: string; // Removed optional '?' to match the mockData.ts definition
   isCompleted?: boolean;
   category: string;
   completedBy?: string;

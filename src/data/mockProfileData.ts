@@ -32,6 +32,7 @@ export const mockCompletedMissions: Mission[] = [
     title: 'Welcome Mission',
     description: 'Connected wallet successfully',
     reward: 10,
+    imageUrl: 'https://images.unsplash.com/photo-1614680376408-81e91ffe3db7', // Added required imageUrl
     isCompleted: true,
     category: 'onboarding',
     status: 'completed',
