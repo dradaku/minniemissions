@@ -4,9 +4,7 @@ import { useWallet } from "@/contexts/WalletContext";
 import { Button } from "@/components/ui/button";
 import { handleWalletError } from "@/utils/walletUtils";
 import { 
-  Trophy,
   Home,
-  ListChecks,
   User,
   Menu,
   X,
@@ -45,14 +43,6 @@ export const Header = () => {
             <Link to="/" className="text-white hover:text-minnie-light flex items-center gap-1">
               <Home size={18} />
               <span>Home</span>
-            </Link>
-            <Link to="/missions" className="text-white hover:text-minnie-light flex items-center gap-1">
-              <ListChecks size={18} />
-              <span>Missions</span>
-            </Link>
-            <Link to="/leaderboard" className="text-white hover:text-minnie-light flex items-center gap-1">
-              <Trophy size={18} />
-              <span>Leaderboard</span>
             </Link>
             {connected && (
               <Link to="/profile" className="text-white hover:text-minnie-light flex items-center gap-1">
@@ -107,20 +97,6 @@ export const Header = () => {
               onClick={() => setMenuOpen(false)}
             >
               Home
-            </Link>
-            <Link 
-              to="/missions" 
-              className="block text-white py-2 px-4 rounded hover:bg-white/10"
-              onClick={() => setMenuOpen(false)}
-            >
-              Missions
-            </Link>
-            <Link 
-              to="/leaderboard" 
-              className="block text-white py-2 px-4 rounded hover:bg-white/10"
-              onClick={() => setMenuOpen(false)}
-            >
-              Leaderboard
             </Link>
             {connected && (
               <Link 
