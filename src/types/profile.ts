@@ -9,7 +9,7 @@ export interface Mission {
   imageUrl: string;
   isCompleted?: boolean;
   category: MissionCategory;
-  completedBy?: string[];
+  completedBy: string[]; // Made required to match mockData.ts definition
   status: MissionStatus;
   createdAt: Date;
   expiresAt?: Date;
