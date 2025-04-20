@@ -1,4 +1,6 @@
 
+import { MissionCategory, MissionStatus } from '../data/mockData';
+
 export interface Mission {
   id: string;
   title: string;
@@ -6,9 +8,9 @@ export interface Mission {
   reward: number;
   imageUrl: string; // Removed optional '?' to match the mockData.ts definition
   isCompleted?: boolean;
-  category: string;
+  category: MissionCategory;
   completedBy?: string;
-  status: 'available' | 'completed' | 'expired';
+  status: MissionStatus;
   createdAt: Date;
   expiresAt?: Date;
 }
