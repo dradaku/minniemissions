@@ -39,7 +39,8 @@ export const mockCompletedMissions: Mission[] = [
     category: MissionCategory.SOCIAL,
     status: MissionStatus.COMPLETED,
     createdAt: new Date(),
-    completedBy: ['Demo User']
+    completedBy: ['Demo User'],
+    expiresAt: null
   }
 ];
 
