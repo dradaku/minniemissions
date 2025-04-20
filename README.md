@@ -132,6 +132,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🙏 Acknowledgments
 
 - Polkadot ecosystem for enabling Web3 innovation
+- EasyA for the hackathon - learnt a lot and excited to continue building!
 - The Substrate community for documentation and support
 - [shadcn/ui](https://ui.shadcn.com/) for the beautiful React components
 - [TailwindCSS](https://tailwindcss.com/) for the styling framework
