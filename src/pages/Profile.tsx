@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
 import { Layout } from '@/components/Layout';
@@ -190,116 +191,117 @@ const Profile = () => {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Profile Content */}
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-8">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="missions">Missions</TabsTrigger>
-              <TabsTrigger value="referrals">Referrals</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="overview">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h2 className="text-xl font-bold mb-4">Stats Overview</h2>
-                  <div className="grid grid-cols-2 gap-4">
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">Vibe Points</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-3xl font-bold text-minnie-purple flex items-center">
-                          <span className="mr-2">⚡</span>
-                          {vibePoints}
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">Missions</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-3xl font-bold text-minnie-purple">
-                          {completedMissions.length}
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">Referrals</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-3xl font-bold text-minnie-purple">
-                          {user?.referralCount || 0}
-                        </div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">Joined</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-xl font-bold text-minnie-purple">
-                          {user?.joinedAt.toLocaleDateString() || '-'}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </div>
-
-                  <h2 className="text-xl font-bold mt-8 mb-4">Recent Missions</h2>
-                  {completedMissions.length > 0 ? (
-                    <div className="space-y-4">
-                      {completedMissions.slice(0, 3).map(mission => (
-                        <Card key={mission.id}>
-                          <CardHeader className="pb-2">
-                            <CardTitle className="flex justify-between items-center">
-                              <span>{mission.title}</span>
-                              <span className="text-minnie-purple">⚡ {mission.reward}</span>
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <p className="text-gray-600 text-sm">{mission.description}</p>
-                          </CardContent>
-                        </Card>
-                      ))}
-                      {completedMissions.length > 3 && (
-                        <Button 
-                          variant="outline" 
-                          className="w-full" 
-                          onClick={() => setActiveTab('missions')}
-                        >
-                          View All Missions
-                        </Button>
-                      )}
-                    </div>
-                  ) : (
-                    <Card>
-                      <CardContent className="py-6 text-center">
-                        <p className="text-gray-500">No missions completed yet</p>
-                        <Button 
-                          variant="link" 
-                          onClick={() => setActiveTab('missions')}
-                          className="text-minnie-purple"
-                        >
-                          Browse Available Missions
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  )}
-                </div>
-
-                <div>
-                  <h2 className="text-xl font-bold mb-4">Your Referral Code</h2>
-                  <ReferralQRCode 
-                    userId={account || ''}
-                    title="Share Your Referral Code"
-                    description="When friends scan this QR code and complete missions, you'll earn bonus Vibe Points!"
-                  />
-                </div>
-              </div>
-            </TabsContent>
+        {/* Profile Content */}
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="mb-8">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="missions">Missions</TabsTrigger>
+            <TabsTrigger value="referrals">Referrals</TabsTrigger>
+          </TabsList>
           
+          <TabsContent value="overview">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h2 className="text-xl font-bold mb-4">Stats Overview</h2>
+                <div className="grid grid-cols-2 gap-4">
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg">Vibe Points</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-3xl font-bold text-minnie-purple flex items-center">
+                        <span className="mr-2">⚡</span>
+                        {vibePoints}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg">Missions</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-3xl font-bold text-minnie-purple">
+                        {completedMissions.length}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg">Referrals</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-3xl font-bold text-minnie-purple">
+                        {user?.referralCount || 0}
+                      </div>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-lg">Joined</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="text-xl font-bold text-minnie-purple">
+                        {user?.joinedAt.toLocaleDateString() || '-'}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                <h2 className="text-xl font-bold mt-8 mb-4">Recent Missions</h2>
+                {completedMissions.length > 0 ? (
+                  <div className="space-y-4">
+                    {completedMissions.slice(0, 3).map(mission => (
+                      <Card key={mission.id}>
+                        <CardHeader className="pb-2">
+                          <CardTitle className="flex justify-between items-center">
+                            <span>{mission.title}</span>
+                            <span className="text-minnie-purple">⚡ {mission.reward}</span>
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p className="text-gray-600 text-sm">{mission.description}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                    {completedMissions.length > 3 && (
+                      <Button 
+                        variant="outline" 
+                        className="w-full" 
+                        onClick={() => setActiveTab('missions')}
+                      >
+                        View All Missions
+                      </Button>
+                    )}
+                  </div>
+                ) : (
+                  <Card>
+                    <CardContent className="py-6 text-center">
+                      <p className="text-gray-500">No missions completed yet</p>
+                      <Button 
+                        variant="link" 
+                        onClick={() => setActiveTab('missions')}
+                        className="text-minnie-purple"
+                      >
+                        Browse Available Missions
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+
+              <div>
+                <h2 className="text-xl font-bold mb-4">Your Referral Code</h2>
+                <ReferralQRCode 
+                  userId={account || ''}
+                  title="Share Your Referral Code"
+                  description="When friends scan this QR code and complete missions, you'll earn bonus Vibe Points!"
+                />
+              </div>
+            </div>
+          </TabsContent>
+        
           <TabsContent value="missions">
             <div className="mb-6">
               <h2 className="text-xl font-bold mb-2">Your Missions</h2>
