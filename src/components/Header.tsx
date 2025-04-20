@@ -54,42 +54,40 @@ export const Header = () => {
               <Trophy size={18} />
               <span>Leaderboard</span>
             </Link>
-            {connected && (
-              <Link to="/profile" className="text-white hover:text-minnie-light flex items-center gap-1">
-                <User size={18} />
-                <span>Profile</span>
-              </Link>
-            )}
-          </nav>
+            <Link to="/profile" className="text-white hover:text-minnie-light flex items-center gap-1">
+              <User size={18} />
+              <span>Profile</span>
+            </Link>
 
-          <div className="hidden md:flex items-center gap-4">
-            {connected ? (
-              <div className="flex items-center gap-4">
-                <div className="bg-white/20 text-white px-3 py-1 rounded-full flex items-center">
-                  <span className="mr-1">⚡</span>
-                  <span>{vibePoints} VP</span>
+            <div className="flex items-center gap-4">
+              {connected ? (
+                <div className="flex items-center gap-4">
+                  <div className="bg-white/20 text-white px-3 py-1 rounded-full flex items-center">
+                    <span className="mr-1">⚡</span>
+                    <span>{vibePoints} VP</span>
+                  </div>
+                  <Button 
+                    variant="secondary" 
+                    size="sm"
+                    onClick={disconnect}
+                    className="bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center gap-2"
+                  >
+                    <Wallet className="h-4 w-4" />
+                    {account?.substring(0, 6)}...{account?.substring(account.length - 4)}
+                  </Button>
                 </div>
+              ) : (
                 <Button 
                   variant="secondary" 
-                  size="sm"
-                  onClick={disconnect}
+                  onClick={handleConnect}
                   className="bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center gap-2"
                 >
                   <Wallet className="h-4 w-4" />
-                  {account?.substring(0, 6)}...{account?.substring(account.length - 4)}
+                  Connect Wallet
                 </Button>
-              </div>
-            ) : (
-              <Button 
-                variant="secondary" 
-                onClick={handleConnect}
-                className="bg-white/10 hover:bg-white/20 text-white border border-white/20 flex items-center gap-2"
-              >
-                <Wallet className="h-4 w-4" />
-                Connect Wallet
-              </Button>
-            )}
-          </div>
+              )}
+            </div>
+          </nav>
 
           <button 
             onClick={toggleMenu} 
@@ -122,15 +120,13 @@ export const Header = () => {
             >
               Leaderboard
             </Link>
-            {connected && (
-              <Link 
-                to="/profile" 
-                className="block text-white py-2 px-4 rounded hover:bg-white/10"
-                onClick={() => setMenuOpen(false)}
-              >
-                Profile
-              </Link>
-            )}
+            <Link 
+              to="/profile" 
+              className="block text-white py-2 px-4 rounded hover:bg-white/10"
+              onClick={() => setMenuOpen(false)}
+            >
+              Profile
+            </Link>
             
             {connected ? (
               <div className="py-2 px-4 space-y-2">
