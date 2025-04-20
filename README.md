@@ -16,7 +16,7 @@ Minniemissions allows fans to:
 
 While artists and brands can:
 
-- Create missions with customised rewards
+- Create 'minnie missions' with customised rewards
 - Set expiration dates and categories for missions
 - View detailed analytics and leaderboards
 - Track engagement and referral metrics
