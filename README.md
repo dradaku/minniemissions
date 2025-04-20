@@ -91,6 +91,19 @@ yarn dev
 - **User Management:** View detailed user stats and activity
 - **Reward Configuration:** Set VP rewards for different mission types
 
+## 📸 Application Screenshots
+
+### Home Page
+![Home Page](public/lovable-uploads/51dba53d-f3c3-4c6e-9e06-33242b388bda.png)
+
+### Vibe Points Conversion
+![Vibe Points Conversion](public/lovable-uploads/14913f4f-9cee-41f5-ab0a-116680f668ca.png)
+
+### Conversion Successful
+![Conversion Successful](public/lovable-uploads/b884a35f-fa83-4cd3-b10e-b33a40455c00.png)
+
+These screenshots demonstrate the key features of Minniemissions, including the home page interface, Vibe Points conversion process, and successful token conversion.
+
 ## 🌐 Pages
 
 - `/` - Home page with CTA and branding
