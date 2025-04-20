@@ -2,7 +2,7 @@
 
 ![minniemissions logo easya](https://github.com/user-attachments/assets/77246a5f-68d5-4bc7-afb8-bf285263882a)
 
-Minniemissions is a Web3 Street Team (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their fans through missions, rewards, and referrals.
+Minniemissions is a Web3 Street Team Platform (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their superfans through missions, rewards, and referrals.
 
 ## 🎯 Overview
 
@@ -16,7 +16,7 @@ Minniemissions allows fans to:
 
 While artists and brands can:
 
-- Create missions with customized rewards
+- Create missions with customised rewards
 - Set expiration dates and categories for missions
 - View detailed analytics and leaderboards
 - Track engagement and referral metrics
