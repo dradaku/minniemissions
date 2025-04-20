@@ -1,9 +1,8 @@
 # Minniemissions - Web3 Street Team Platform built on Polkadot
 
-![minniemissions logo](https://github.com/user-attachments/assets/04d656a0-3fed-417b-a27c-5ebfcc8d94d6)
+![minniemissions logo easya](https://github.com/user-attachments/assets/77246a5f-68d5-4bc7-afb8-bf285263882a)
 
-
-Minniemissions is a full-stack decentralized application (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their fans through missions, rewards, and referrals.
+Minniemissions is a full-stack Web3 Street Team (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their fans through missions, rewards, and referrals.
 
 ## 🎯 Overview
 
