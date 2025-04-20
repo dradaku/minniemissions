@@ -6,6 +6,11 @@ export interface Mission {
   reward: number;
   imageUrl?: string;
   isCompleted?: boolean;
+  category: string;
+  completedBy?: string;
+  status: 'available' | 'completed' | 'expired';
+  createdAt: Date;
+  expiresAt?: Date;
 }
 
 export interface UserProfile {

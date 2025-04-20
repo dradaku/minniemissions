@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
 import { Layout } from '@/components/Layout';
@@ -24,10 +23,10 @@ const Profile = () => {
     return (
       <Layout>
         <div className="max-w-6xl mx-auto">
-          {/* Demo Profile Header */}
-          <div className="mb-8 bg-gradient-to-r from-minnie-purple to-minnie-blue rounded-xl p-6 md:p-8 text-white">
+          {/* Demo Profile Header with Red and Black Palette */}
+          <div className="mb-8 bg-gradient-to-r from-[#ea384c] to-black rounded-xl p-6 md:p-8 text-white">
             <div className="flex flex-col md:flex-row items-center gap-6">
-              <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-4xl font-bold">
+              <div className="w-24 h-24 bg-yellow-400/20 rounded-full flex items-center justify-center text-4xl font-bold text-yellow-400">
                 D
               </div>
               <div className="text-center md:text-left">
@@ -36,17 +35,17 @@ const Profile = () => {
                   Connect your wallet to personalize your profile
                 </p>
                 <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                  <div className="bg-white/20 rounded-full px-4 py-1 flex items-center">
+                  <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
                     <span className="mr-1">⚡</span>
                     <span className="font-semibold">0 Vibe Points</span>
                   </div>
-                  <div className="bg-white/20 rounded-full px-4 py-1 flex items-center">
+                  <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
                     <Award className="w-4 h-4 mr-1" />
                     <span className="font-semibold">0 Missions</span>
                   </div>
                   <Button 
                     size="sm"
-                    className="bg-white text-minnie-purple hover:bg-white/90"
+                    className="bg-yellow-400 text-black hover:bg-yellow-500"
                     onClick={connect}
                   >
                     Connect Wallet
@@ -56,12 +55,12 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Demo Content */}
+          {/* Demo Content with Minimalist Design */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-8">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="missions">Missions</TabsTrigger>
-              <TabsTrigger value="referrals">Referrals</TabsTrigger>
+            <TabsList className="mb-8 bg-gray-100">
+              <TabsTrigger value="overview" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Overview</TabsTrigger>
+              <TabsTrigger value="missions" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Missions</TabsTrigger>
+              <TabsTrigger value="referrals" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Referrals</TabsTrigger>
             </TabsList>
             
             <TabsContent value="overview">
@@ -127,13 +126,13 @@ const Profile = () => {
             <TabsContent value="missions">
               <div className="text-center py-12">
                 <Star className="h-12 w-12 text-gray-300 mb-4 mx-auto" />
-                <h3 className="text-xl font-medium mb-2">Connect to View Missions</h3>
+                <h3 className="text-xl font-medium mb-2 text-black">Connect to View Missions</h3>
                 <p className="text-gray-500 mb-6">
                   Connect your wallet to start completing missions and earning rewards.
                 </p>
                 <Button 
                   onClick={connect}
-                  className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white"
+                  className="bg-[#ea384c] text-white hover:bg-[#c62434]"
                 >
                   Connect Wallet
                 </Button>
@@ -143,13 +142,13 @@ const Profile = () => {
             <TabsContent value="referrals">
               <div className="text-center py-12">
                 <Users className="h-12 w-12 text-gray-300 mb-4 mx-auto" />
-                <h3 className="text-xl font-medium mb-2">Connect to View Referrals</h3>
+                <h3 className="text-xl font-medium mb-2 text-black">Connect to View Referrals</h3>
                 <p className="text-gray-500 mb-6">
                   Connect your wallet to get your referral code and start earning bonus points.
                 </p>
                 <Button 
                   onClick={connect}
-                  className="bg-gradient-to-r from-minnie-purple to-minnie-blue text-white"
+                  className="bg-yellow-400 text-black hover:bg-yellow-500"
                 >
                   Connect Wallet
                 </Button>
@@ -164,10 +163,10 @@ const Profile = () => {
   return (
     <Layout>
       <div className="max-w-6xl mx-auto">
-        {/* Profile Header */}
-        <div className="mb-8 bg-gradient-to-r from-minnie-purple to-minnie-blue rounded-xl p-6 md:p-8 text-white">
+        {/* Profile Header with Red and Black Palette */}
+        <div className="mb-8 bg-gradient-to-r from-[#ea384c] to-black rounded-xl p-6 md:p-8 text-white">
           <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-4xl font-bold">
+            <div className="w-24 h-24 bg-yellow-400/20 rounded-full flex items-center justify-center text-4xl font-bold text-yellow-400">
               {user.name.charAt(0)}
             </div>
             <div className="text-center md:text-left">
@@ -176,15 +175,15 @@ const Profile = () => {
                 {account?.substring(0, 8)}...{account?.substring(account.length - 8)}
               </p>
               <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                <div className="bg-white/20 rounded-full px-4 py-1 flex items-center">
+                <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
                   <span className="mr-1">⚡</span>
                   <span className="font-semibold">{vibePoints} Vibe Points</span>
                 </div>
-                <div className="bg-white/20 rounded-full px-4 py-1 flex items-center">
+                <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
                   <Award className="w-4 h-4 mr-1" />
                   <span className="font-semibold">{completedMissions.length} Missions</span>
                 </div>
-                <div className="bg-white/20 rounded-full px-4 py-1 flex items-center">
+                <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
                   <Users className="w-4 h-4 mr-1" />
                   <span className="font-semibold">{user?.referralCount || 0} Referrals</span>
                 </div>
@@ -195,10 +194,10 @@ const Profile = () => {
 
         {/* Profile Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-8">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="missions">Missions</TabsTrigger>
-            <TabsTrigger value="referrals">Referrals</TabsTrigger>
+          <TabsList className="mb-8 bg-gray-100">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Overview</TabsTrigger>
+            <TabsTrigger value="missions" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Missions</TabsTrigger>
+            <TabsTrigger value="referrals" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Referrals</TabsTrigger>
           </TabsList>
           
           <TabsContent value="overview">
