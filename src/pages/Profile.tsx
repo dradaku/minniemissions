@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
 import { Layout } from '@/components/Layout';
@@ -8,27 +7,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { MissionCard } from '@/components/MissionCard';
 import { Award, Star, Users, Share2, User } from 'lucide-react';
+import { mockAvailableMissions, mockCompletedMissions, mockUserProfile } from '@/data/mockProfileData';
+import type { Mission, UserProfile } from '@/types/profile';
 
 const Profile = () => {
   const { connected, account, vibePoints, connect } = useWallet();
   const [activeTab, setActiveTab] = useState('overview');
   
-  const demoMissions = [
-    {
-      id: 'demo1',
-      title: 'Welcome Mission',
-      description: 'Complete your first mission by connecting your wallet',
-      reward: 50,
-      imageUrl: 'https://images.unsplash.com/photo-1579762715118-a6f1d4b934f1'
-    },
-    {
-      id: 'demo2',
-      title: 'Share & Earn',
-      description: 'Share your referral link with friends',
-      reward: 25,
-      imageUrl: 'https://images.unsplash.com/photo-1611605698335-8b1569810432'
-    }
-  ];
+  // Use mock data
+  const availableMissions = mockAvailableMissions;
+  const completedMissions = mockCompletedMissions;
+  const user: UserProfile = mockUserProfile;
 
   if (!connected) {
     return (
@@ -116,7 +105,7 @@ const Profile = () => {
                 <div>
                   <h2 className="text-xl font-bold mb-4">Available Missions</h2>
                   <div className="space-y-4">
-                    {demoMissions.map(mission => (
+                    {availableMissions.map(mission => (
                       <Card key={mission.id}>
                         <CardHeader className="pb-2">
                           <CardTitle className="flex justify-between items-center">
@@ -178,10 +167,10 @@ const Profile = () => {
         <div className="mb-8 bg-gradient-to-r from-minnie-purple to-minnie-blue rounded-xl p-6 md:p-8 text-white">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center text-4xl font-bold">
-              {user?.name.charAt(0) || 'U'}
+              {user.name.charAt(0)}
             </div>
             <div className="text-center md:text-left">
-              <h1 className="text-2xl md:text-3xl font-bold mb-1">{user?.name || 'User'}</h1>
+              <h1 className="text-2xl md:text-3xl font-bold mb-1">{user.name}</h1>
               <p className="text-white/80 text-sm mb-3">
                 {account?.substring(0, 8)}...{account?.substring(account.length - 8)}
               </p>
@@ -201,116 +190,115 @@ const Profile = () => {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Profile Content */}
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="mb-8">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="missions">Missions</TabsTrigger>
-            <TabsTrigger value="referrals">Referrals</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="overview">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h2 className="text-xl font-bold mb-4">Stats Overview</h2>
-                <div className="grid grid-cols-2 gap-4">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">Vibe Points</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-3xl font-bold text-minnie-purple flex items-center">
-                        <span className="mr-2">⚡</span>
-                        {vibePoints}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">Missions</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-3xl font-bold text-minnie-purple">
-                        {completedMissions.length}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">Referrals</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-3xl font-bold text-minnie-purple">
-                        {user?.referralCount || 0}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-lg">Joined</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="text-xl font-bold text-minnie-purple">
-                        {user?.joinedAt.toLocaleDateString() || '-'}
-                      </div>
-                    </CardContent>
-                  </Card>
+          {/* Profile Content */}
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsList className="mb-8">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="missions">Missions</TabsTrigger>
+              <TabsTrigger value="referrals">Referrals</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="overview">
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Stats Overview</h2>
+                  <div className="grid grid-cols-2 gap-4">
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg">Vibe Points</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold text-minnie-purple flex items-center">
+                          <span className="mr-2">⚡</span>
+                          {vibePoints}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg">Missions</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold text-minnie-purple">
+                          {completedMissions.length}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg">Referrals</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-3xl font-bold text-minnie-purple">
+                          {user?.referralCount || 0}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg">Joined</CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-xl font-bold text-minnie-purple">
+                          {user?.joinedAt.toLocaleDateString() || '-'}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <h2 className="text-xl font-bold mt-8 mb-4">Recent Missions</h2>
+                  {completedMissions.length > 0 ? (
+                    <div className="space-y-4">
+                      {completedMissions.slice(0, 3).map(mission => (
+                        <Card key={mission.id}>
+                          <CardHeader className="pb-2">
+                            <CardTitle className="flex justify-between items-center">
+                              <span>{mission.title}</span>
+                              <span className="text-minnie-purple">⚡ {mission.reward}</span>
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <p className="text-gray-600 text-sm">{mission.description}</p>
+                          </CardContent>
+                        </Card>
+                      ))}
+                      {completedMissions.length > 3 && (
+                        <Button 
+                          variant="outline" 
+                          className="w-full" 
+                          onClick={() => setActiveTab('missions')}
+                        >
+                          View All Missions
+                        </Button>
+                      )}
+                    </div>
+                  ) : (
+                    <Card>
+                      <CardContent className="py-6 text-center">
+                        <p className="text-gray-500">No missions completed yet</p>
+                        <Button 
+                          variant="link" 
+                          onClick={() => setActiveTab('missions')}
+                          className="text-minnie-purple"
+                        >
+                          Browse Available Missions
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  )}
                 </div>
 
-                <h2 className="text-xl font-bold mt-8 mb-4">Recent Missions</h2>
-                {completedMissions.length > 0 ? (
-                  <div className="space-y-4">
-                    {completedMissions.slice(0, 3).map(mission => (
-                      <Card key={mission.id}>
-                        <CardHeader className="pb-2">
-                          <CardTitle className="flex justify-between items-center">
-                            <span>{mission.title}</span>
-                            <span className="text-minnie-purple">⚡ {mission.reward}</span>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          <p className="text-gray-600 text-sm">{mission.description}</p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                    {completedMissions.length > 3 && (
-                      <Button 
-                        variant="outline" 
-                        className="w-full" 
-                        onClick={() => setActiveTab('missions')}
-                      >
-                        View All Missions
-                      </Button>
-                    )}
-                  </div>
-                ) : (
-                  <Card>
-                    <CardContent className="py-6 text-center">
-                      <p className="text-gray-500">No missions completed yet</p>
-                      <Button 
-                        variant="link" 
-                        onClick={() => setActiveTab('missions')}
-                        className="text-minnie-purple"
-                      >
-                        Browse Available Missions
-                      </Button>
-                    </CardContent>
-                  </Card>
-                )}
+                <div>
+                  <h2 className="text-xl font-bold mb-4">Your Referral Code</h2>
+                  <ReferralQRCode 
+                    userId={account || ''}
+                    title="Share Your Referral Code"
+                    description="When friends scan this QR code and complete missions, you'll earn bonus Vibe Points!"
+                  />
+                </div>
               </div>
-
-              <div>
-                <h2 className="text-xl font-bold mb-4">Your Referral Code</h2>
-                <ReferralQRCode 
-                  userId={userAddress}
-                  title="Share Your Referral Code"
-                  description="When friends scan this QR code and complete missions, you'll earn bonus Vibe Points!"
-                />
-              </div>
-            </div>
-          </TabsContent>
+            </TabsContent>
           
           <TabsContent value="missions">
             <div className="mb-6">
@@ -446,7 +434,7 @@ const Profile = () => {
                 
                 <div>
                   <ReferralQRCode 
-                    userId={userAddress}
+                    userId={account || ''}
                     title="Your Referral QR Code"
                     description="Share this with friends to earn bonus Vibe Points when they join and complete missions."
                   />
