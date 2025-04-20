@@ -1,6 +1,7 @@
-# Minniemissions - Fan Engagement dApp
+# Minniemissions - Web3 Street Team Platform built on Polkadot
 
-![Minniemissions Logo](https://i.imgur.com/6UOr4Kl.png)
+![minniemissions logo](https://github.com/user-attachments/assets/04d656a0-3fed-417b-a27c-5ebfcc8d94d6)
+
 
 Minniemissions is a full-stack decentralized application (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their fans through missions, rewards, and referrals.
 
