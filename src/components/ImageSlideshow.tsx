@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/carousel";
 
 const slides = [
+  "/lovable-uploads/13185bc9-f4c1-4fd0-860c-b819ae1eab27.png",
   "/lovable-uploads/57da0736-da7d-4394-9d03-06ad41f3acc8.png",
   "/lovable-uploads/fba9d82a-e78f-4745-8e5a-f9ecf2081197.png"
 ];
