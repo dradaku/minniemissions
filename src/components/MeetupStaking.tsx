@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -104,8 +103,11 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
   const [selectedMeetup, setSelectedMeetup] = useState<Meetup | null>(null);
   const [isStaking, setIsStaking] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  
-  // New meetup form state
+  const [connected, setConnected] = useState(false);
+  const [kycDialogOpen, setKycDialogOpen] = useState(false);
+  const [kycVerified, setKycVerified] = useState(false);
+  const [kycProcessing, setKycProcessing] = useState(false);
+
   const [newMeetup, setNewMeetup] = useState({
     title: "",
     description: "",
@@ -114,9 +116,6 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
     fandom: "",
     stakingGoal: 200
   });
-  const [kycDialogOpen, setKycDialogOpen] = useState(false);
-  const [kycVerified, setKycVerified] = useState(false);
-  const [kycProcessing, setKycProcessing] = useState(false);
 
   const handleCreateMeetup = () => {
     if (!kycVerified) {
@@ -126,13 +125,12 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
     
     setIsCreating(true);
     
-    // In a real implementation, this would call an API endpoint to create a meetup
     setTimeout(() => {
       const newMeetupObj: Meetup = {
         id: Date.now().toString(),
         ...newMeetup,
         organizer: "current_user",
-        currentStaked: 100, // Initial stake by creator
+        currentStaked: 100,
         participants: 1,
         status: "upcoming"
       };
@@ -143,7 +141,6 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
         description: "Your meetup has been created and is now visible to other fans."
       });
       
-      // Reset form
       setNewMeetup({
         title: "",
         description: "",
@@ -175,7 +172,6 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
     
     setIsStaking(true);
     
-    // In a real implementation, this would call a blockchain function to stake points
     setTimeout(() => {
       const updatedMeetups = meetups.map(m => {
         if (m.id === selectedMeetup.id) {
@@ -202,7 +198,6 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
   const simulateKycVerification = () => {
     setKycProcessing(true);
     
-    // Simulate KYC verification process
     setTimeout(() => {
       setKycVerified(true);
       setKycProcessing(false);
@@ -225,105 +220,107 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
 
   return (
     <div className="space-y-8">
-      <Card className="bg-gradient-to-r from-indigo-50 to-purple-50">
-        <CardHeader>
-          <CardTitle>Create MinnieSquad Meetup</CardTitle>
-          <CardDescription>
-            Organize a meetup for your favorite fandom and fund it with vibe points.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid gap-4">
-            <div>
-              <Label htmlFor="title">Meetup Title</Label>
-              <Input
-                id="title"
-                placeholder="Enter meetup title"
-                value={newMeetup.title}
-                onChange={(e) => setNewMeetup({...newMeetup, title: e.target.value})}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="fandom">Select Fandom</Label>
-              <Select 
-                value={newMeetup.fandom} 
-                onValueChange={(value) => setNewMeetup({...newMeetup, fandom: value})}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select a fandom" />
-                </SelectTrigger>
-                <SelectContent>
-                  {fandoms.filter(f => f.name !== "Other").map((fandom) => (
-                    <SelectItem key={fandom.name} value={fandom.name}>
-                      {fandom.fanbase} ({fandom.artist})
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
+      {connected && (
+        <Card className="bg-gradient-to-r from-indigo-50 to-purple-50">
+          <CardHeader>
+            <CardTitle>Create MinnieSquad Meetup</CardTitle>
+            <CardDescription>
+              Organize a meetup for your favorite fandom and fund it with vibe points.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid gap-4">
               <div>
-                <Label htmlFor="date">Date</Label>
+                <Label htmlFor="title">Meetup Title</Label>
                 <Input
-                  id="date"
-                  type="date"
-                  value={newMeetup.date}
-                  onChange={(e) => setNewMeetup({...newMeetup, date: e.target.value})}
+                  id="title"
+                  placeholder="Enter meetup title"
+                  value={newMeetup.title}
+                  onChange={(e) => setNewMeetup({...newMeetup, title: e.target.value})}
                 />
               </div>
+              
               <div>
-                <Label htmlFor="stakingGoal">Staking Goal (VP)</Label>
+                <Label htmlFor="fandom">Select Fandom</Label>
+                <Select 
+                  value={newMeetup.fandom} 
+                  onValueChange={(value) => setNewMeetup({...newMeetup, fandom: value})}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a fandom" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {fandoms.filter(f => f.name !== "Other").map((fandom) => (
+                      <SelectItem key={fandom.name} value={fandom.name}>
+                        {fandom.fanbase} ({fandom.artist})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="date">Date</Label>
+                  <Input
+                    id="date"
+                    type="date"
+                    value={newMeetup.date}
+                    onChange={(e) => setNewMeetup({...newMeetup, date: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="stakingGoal">Staking Goal (VP)</Label>
+                  <Input
+                    id="stakingGoal"
+                    type="number"
+                    min="100"
+                    value={newMeetup.stakingGoal}
+                    onChange={(e) => setNewMeetup({...newMeetup, stakingGoal: parseInt(e.target.value)})}
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <Label htmlFor="location">Location</Label>
                 <Input
-                  id="stakingGoal"
-                  type="number"
-                  min="100"
-                  value={newMeetup.stakingGoal}
-                  onChange={(e) => setNewMeetup({...newMeetup, stakingGoal: parseInt(e.target.value)})}
+                  id="location"
+                  placeholder="Enter meetup location"
+                  value={newMeetup.location}
+                  onChange={(e) => setNewMeetup({...newMeetup, location: e.target.value})}
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Describe your meetup..."
+                  value={newMeetup.description}
+                  onChange={(e) => setNewMeetup({...newMeetup, description: e.target.value})}
+                  className="min-h-[100px]"
                 />
               </div>
             </div>
-            
-            <div>
-              <Label htmlFor="location">Location</Label>
-              <Input
-                id="location"
-                placeholder="Enter meetup location"
-                value={newMeetup.location}
-                onChange={(e) => setNewMeetup({...newMeetup, location: e.target.value})}
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="description">Description</Label>
-              <Textarea
-                id="description"
-                placeholder="Describe your meetup..."
-                value={newMeetup.description}
-                onChange={(e) => setNewMeetup({...newMeetup, description: e.target.value})}
-                className="min-h-[100px]"
-              />
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button 
-            onClick={handleCreateMeetup} 
-            disabled={isCreating || !newMeetup.title || !newMeetup.fandom || !newMeetup.date || !newMeetup.location}
-            className="w-full"
-          >
-            {isCreating ? (
-              <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Creating Meetup...
-              </>
-            ) : (
-              "Create Meetup"
-            )}
-          </Button>
-        </CardFooter>
-      </Card>
+          </CardContent>
+          <CardFooter>
+            <Button 
+              onClick={handleCreateMeetup} 
+              disabled={isCreating || !newMeetup.title || !newMeetup.fandom || !newMeetup.date || !newMeetup.location}
+              className="w-full"
+            >
+              {isCreating ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Creating Meetup...
+                </>
+              ) : (
+                "Create Meetup"
+              )}
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
 
       <Dialog open={kycDialogOpen} onOpenChange={setKycDialogOpen}>
         <DialogContent>
@@ -418,60 +415,70 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
               </div>
             </CardContent>
             <CardFooter>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button 
-                    variant={meetup.currentStaked >= meetup.stakingGoal ? "outline" : "default"} 
-                    className="w-full"
-                    onClick={() => handleStakeMeetup(meetup)}
-                    disabled={meetup.status === "completed"}
-                  >
-                    {meetup.currentStaked >= meetup.stakingGoal ? "Join Meetup" : "Stake & Join"}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Stake Vibe Points for {meetup.title}</DialogTitle>
-                    <DialogDescription>
-                      Stake your vibe points to fund this meetup and secure your participation.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="py-4">
-                    <p className="text-sm mb-4">
-                      You have <span className="font-semibold">{vibePoints} VP</span> available to stake.
-                    </p>
-                    <div className="space-y-2">
-                      <Label htmlFor="stake-amount">Stake Amount (VP)</Label>
-                      <Input 
-                        id="stake-amount" 
-                        type="number" 
-                        min="10" 
-                        max={vibePoints} 
-                        value={stakeAmount} 
-                        onChange={(e) => setStakeAmount(parseInt(e.target.value))}
-                      />
-                    </div>
-                    <p className="text-xs text-gray-500 mt-2">
-                      Your stake helps fund venue costs, refreshments, and activities for this meetup.
-                    </p>
-                  </div>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline" disabled={isStaking}>Cancel</Button>
-                    </DialogClose>
-                    <Button onClick={confirmStake} disabled={isStaking}>
-                      {isStaking ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Processing...
-                        </>
-                      ) : (
-                        `Stake ${stakeAmount} VP`
-                      )}
+              {connected ? (
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button 
+                      variant={meetup.currentStaked >= meetup.stakingGoal ? "outline" : "default"} 
+                      className="w-full"
+                      onClick={() => handleStakeMeetup(meetup)}
+                      disabled={meetup.status === "completed"}
+                    >
+                      {meetup.currentStaked >= meetup.stakingGoal ? "Join Meetup" : "Stake & Join"}
                     </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Stake Vibe Points for {meetup.title}</DialogTitle>
+                      <DialogDescription>
+                        Stake your vibe points to fund this meetup and secure your participation.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4">
+                      <p className="text-sm mb-4">
+                        You have <span className="font-semibold">{vibePoints} VP</span> available to stake.
+                      </p>
+                      <div className="space-y-2">
+                        <Label htmlFor="stake-amount">Stake Amount (VP)</Label>
+                        <Input 
+                          id="stake-amount" 
+                          type="number" 
+                          min="10" 
+                          max={vibePoints} 
+                          value={stakeAmount} 
+                          onChange={(e) => setStakeAmount(parseInt(e.target.value))}
+                        />
+                      </div>
+                      <p className="text-xs text-gray-500 mt-2">
+                        Your stake helps fund venue costs, refreshments, and activities for this meetup.
+                      </p>
+                    </div>
+                    <DialogFooter>
+                      <DialogClose asChild>
+                        <Button variant="outline" disabled={isStaking}>Cancel</Button>
+                      </DialogClose>
+                      <Button onClick={confirmStake} disabled={isStaking}>
+                        {isStaking ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            Processing...
+                          </>
+                        ) : (
+                          `Stake ${stakeAmount} VP`
+                        )}
+                      </Button>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => window.location.href = "/auth"}
+                >
+                  Connect Wallet to Join Meetup
+                </Button>
+              )}
             </CardFooter>
           </Card>
         ))}

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Layout } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -87,27 +86,7 @@ const Fandoms = () => {
           </TabsContent>
           
           <TabsContent value="meetups">
-            {connected ? (
-              <MeetupStaking vibePoints={vibePoints} />
-            ) : (
-              <Card className="w-full max-w-2xl mx-auto">
-                <CardHeader>
-                  <CardTitle>Connect Wallet to Join Meetups</CardTitle>
-                  <CardDescription>
-                    You need to connect your wallet to create or join fandom meetups.
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter>
-                  <Button 
-                    variant="secondary"
-                    className="w-full"
-                    onClick={() => window.location.href = "/auth"}
-                  >
-                    Connect Wallet
-                  </Button>
-                </CardFooter>
-              </Card>
-            )}
+            <MeetupStaking vibePoints={vibePoints} />
           </TabsContent>
         </Tabs>
       </div>
