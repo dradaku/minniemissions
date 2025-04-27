@@ -1,5 +1,4 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -35,7 +34,7 @@ export const ProfileEditor = () => {
         .from('profiles')
         .select('full_name, avatar_url, bio, favorite_artist')
         .eq('id', account)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       if (data) setProfileData(data);
@@ -43,6 +42,12 @@ export const ProfileEditor = () => {
       console.error('Error fetching profile:', error);
     }
   };
+
+  useEffect(() => {
+    if (account) {
+      fetchProfile();
+    }
+  }, [account]);
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
@@ -114,13 +119,6 @@ export const ProfileEditor = () => {
       setLoading(false);
     }
   };
-
-  // Fetch profile data on mount
-  useState(() => {
-    if (account) {
-      fetchProfile();
-    }
-  }, [account]);
 
   return (
     <Card className="w-full max-w-2xl mx-auto">
