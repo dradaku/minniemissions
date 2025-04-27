@@ -17,6 +17,22 @@ import {
   FormMessage 
 } from "@/components/ui/form";
 import { useToast } from "@/components/ui/use-toast";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { fandoms } from "@/data/fandoms";
 
 // Validation schema
 const contactFormSchema = z.object({
@@ -31,8 +47,8 @@ const contactFormSchema = z.object({
 const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [openCombobox, setOpenCombobox] = useState(false);
 
-  // Initialize the form with react-hook-form and zod
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -45,7 +61,6 @@ const Contact = () => {
     }
   });
 
-  // Handle form submission
   const onSubmit = async (values: z.infer<typeof contactFormSchema>) => {
     setIsSubmitting(true);
     
@@ -69,7 +84,6 @@ const Contact = () => {
         variant: "default"
       });
 
-      // Reset the form after successful submission
       form.reset();
     } catch (error) {
       toast({
@@ -122,9 +136,50 @@ const Contact = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Fandom</FormLabel>
-                <FormControl>
-                  <Input placeholder="Which artist/community are you a fan of?" {...field} />
-                </FormControl>
+                <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Input
+                        placeholder="Search for a fandom..."
+                        {...field}
+                      />
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="p-0" align="start">
+                    <Command>
+                      <CommandInput 
+                        placeholder="Search fandoms..." 
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      />
+                      <CommandList>
+                        <CommandEmpty>No fandom found.</CommandEmpty>
+                        <CommandGroup>
+                          {fandoms.map((fandom) => (
+                            <CommandItem
+                              key={fandom.name}
+                              value={fandom.name}
+                              onSelect={(value) => {
+                                form.setValue("fandom", value);
+                                setOpenCombobox(false);
+                              }}
+                            >
+                              {fandom.artist} - {fandom.fanbase}
+                              <Check
+                                className={cn(
+                                  "ml-auto h-4 w-4",
+                                  field.value === fandom.name
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )}
+                              />
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
                 <FormDescription>
                   Tell us which artist or community you'd like to see on Minniemissions
                 </FormDescription>
