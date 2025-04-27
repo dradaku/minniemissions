@@ -17,5 +17,9 @@ export const fandoms: Fandom[] = [
   { name: "Beliebers", fanbase: "Beliebers", artist: "Justin Bieber" },
   { name: "Directioners", fanbase: "Directioners", artist: "One Direction" },
   { name: "KatyCats", fanbase: "KatyCats", artist: "Katy Perry" },
+  { name: "Vibestars", fanbase: "Vibestars", artist: "Dr Adaku" },
+  { name: "30BG", fanbase: "30BG", artist: "Davido" },
+  { name: "Wizkid FC", fanbase: "Wizkid FC", artist: "Wizkid" },
+  { name: "Starr Gang", fanbase: "Starr Gang", artist: "Ayra Starr" },
+  { name: "Mavins", fanbase: "Mavins", artist: "Mavins" }
 ];
-
