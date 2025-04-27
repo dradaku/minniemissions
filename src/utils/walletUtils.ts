@@ -7,6 +7,11 @@ export const handleWalletError = (error: Error) => {
       description: 'You can download it from https://polkadot.js.org/extension/',
       duration: 5000,
     });
+  } else if (error.message.includes('access to accounts')) {
+    toast.error('Please authorize website access', {
+      description: 'Accept the connection request in your Polkadot wallet.',
+      duration: 5000,
+    });
   } else if (error.message.includes('No accounts found')) {
     toast.error('No accounts found in your Polkadot wallet', {
       description: 'Please create or import an account in your Polkadot wallet.',
