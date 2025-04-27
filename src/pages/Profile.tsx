@@ -9,6 +9,7 @@ import { MissionCard } from '@/components/MissionCard';
 import { Award, Star, Users, Share2, User } from 'lucide-react';
 import { mockAvailableMissions, mockCompletedMissions, mockUserProfile } from '@/data/mockProfileData';
 import type { Mission, UserProfile } from '@/types/profile';
+import { ProfileEditor } from '@/components/ProfileEditor';
 
 const Profile = () => {
   const { connected, account, vibePoints, connect } = useWallet();
@@ -163,47 +164,19 @@ const Profile = () => {
   return (
     <Layout>
       <div className="max-w-6xl mx-auto">
-        {/* Profile Header with Red and Black Palette */}
-        <div className="mb-8 bg-gradient-to-r from-[#ea384c] to-black rounded-xl p-6 md:p-8 text-white">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="w-24 h-24 bg-yellow-400/20 rounded-full flex items-center justify-center text-4xl font-bold text-yellow-400">
-              {user.name.charAt(0)}
-            </div>
-            <div className="text-center md:text-left">
-              <h1 className="text-2xl md:text-3xl font-bold mb-1">{user.name}</h1>
-              <p className="text-white/80 text-sm mb-3">
-                {account?.substring(0, 8)}...{account?.substring(account.length - 8)}
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
-                  <span className="mr-1">⚡</span>
-                  <span className="font-semibold">{vibePoints} Vibe Points</span>
-                </div>
-                <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
-                  <Award className="w-4 h-4 mr-1" />
-                  <span className="font-semibold">{completedMissions.length} Missions</span>
-                </div>
-                <div className="bg-white/10 rounded-full px-4 py-1 flex items-center">
-                  <Users className="w-4 h-4 mr-1" />
-                  <span className="font-semibold">{user?.referralCount || 0} Referrals</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Profile Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-8 bg-gray-100">
             <TabsTrigger value="overview" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Overview</TabsTrigger>
             <TabsTrigger value="missions" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Missions</TabsTrigger>
             <TabsTrigger value="referrals" className="data-[state=active]:bg-[#ea384c] data-[state=active]:text-white">Referrals</TabsTrigger>
           </TabsList>
-          
-          <TabsContent value="overview">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h2 className="text-xl font-bold mb-4">Stats Overview</h2>
+        
+        <TabsContent value="overview">
+          <div className="grid md:grid-cols-2 gap-8">
+            <ProfileEditor />
+            
+            <div>
+              <h2 className="text-xl font-bold mb-4">Stats Overview</h2>
                 <div className="grid grid-cols-2 gap-4">
                   <Card>
                     <CardHeader className="pb-2">
@@ -288,15 +261,6 @@ const Profile = () => {
                     </CardContent>
                   </Card>
                 )}
-              </div>
-
-              <div>
-                <h2 className="text-xl font-bold mb-4">Your Referral Code</h2>
-                <ReferralQRCode 
-                  userId={account || ''}
-                  title="Share Your Referral Code"
-                  description="When friends scan this QR code and complete missions, you'll earn bonus Vibe Points!"
-                />
               </div>
             </div>
           </TabsContent>
