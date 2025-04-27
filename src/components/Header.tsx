@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useWallet } from "@/contexts/WalletContext";
 import { Button } from "@/components/ui/button";
@@ -11,7 +12,8 @@ import {
   LayoutList,
   Trophy,
   Info,
-  MessageSquare
+  MessageSquare,
+  Music
 } from "lucide-react";
 import { useState } from "react";
 
@@ -54,6 +56,10 @@ export const Header = () => {
             <Link to="/leaderboard" className="text-white hover:text-minnie-light flex items-center gap-1">
               <Trophy size={18} />
               <span>Leaderboard</span>
+            </Link>
+            <Link to="/fandoms" className="text-white hover:text-minnie-light flex items-center gap-1">
+              <Music size={18} />
+              <span>Fandoms</span>
             </Link>
             <Link to="/about" className="text-white hover:text-minnie-light flex items-center gap-1">
               <Info size={18} />
@@ -128,6 +134,13 @@ export const Header = () => {
               onClick={() => setMenuOpen(false)}
             >
               Leaderboard
+            </Link>
+            <Link 
+              to="/fandoms" 
+              className="block text-white py-2 px-4 rounded hover:bg-white/10"
+              onClick={() => setMenuOpen(false)}
+            >
+              Fandoms
             </Link>
             <Link 
               to="/about" 
