@@ -33,6 +33,7 @@ import {
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { sportsTeams } from "@/data/sportsTeams";
+import { fandoms } from "@/data/fandoms";
 import { FandomAI } from "@/components/FandomAI";
 
 const contactFormSchema = z.object({

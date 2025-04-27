@@ -14,6 +14,7 @@ export type Database = {
           created_at: string
           email: string
           fandom: string
+          favorite_team: string | null
           feedback: string | null
           id: string
           message: string
@@ -24,6 +25,7 @@ export type Database = {
           created_at?: string
           email: string
           fandom: string
+          favorite_team?: string | null
           feedback?: string | null
           id?: string
           message: string
@@ -34,6 +36,7 @@ export type Database = {
           created_at?: string
           email?: string
           fandom?: string
+          favorite_team?: string | null
           feedback?: string | null
           id?: string
           message?: string
