@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useToast } from "@/components/ui/use-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -29,6 +30,8 @@ export const ProfileEditor = () => {
   });
 
   const fetchProfile = async () => {
+    if (!account) return;
+    
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -40,20 +43,44 @@ export const ProfileEditor = () => {
       if (data) setProfileData(data);
     } catch (error) {
       console.error('Error fetching profile:', error);
+      toast({
+        title: "Error",
+        description: "Failed to fetch profile data",
+        variant: "destructive"
+      });
     }
   };
 
   useEffect(() => {
-    if (account) {
-      fetchProfile();
-    }
+    fetchProfile();
   }, [account]);
 
   const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!account) {
+      toast({
+        title: "Error",
+        description: "Please connect your wallet first",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       const file = event.target.files?.[0];
       if (!file) return;
+
+      // Validate file type and size
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+
+      if (!validTypes.includes(file.type)) {
+        throw new Error('Invalid file type. Only JPEG, PNG, and GIF are allowed.');
+      }
+
+      if (file.size > maxSize) {
+        throw new Error('File is too large. Maximum size is 5MB.');
+      }
 
       const fileExt = file.name.split('.').pop();
       const filePath = `${account}/${Date.now()}.${fileExt}`;
@@ -68,10 +95,12 @@ export const ProfileEditor = () => {
         .from('profile-pictures')
         .getPublicUrl(filePath);
 
-      await supabase
+      const { error: updateError } = await supabase
         .from('profiles')
         .update({ avatar_url: publicUrl })
         .eq('id', account);
+
+      if (updateError) throw updateError;
 
       setProfileData(prev => ({ ...prev, avatar_url: publicUrl }));
       toast({
@@ -82,7 +111,7 @@ export const ProfileEditor = () => {
       console.error('Error uploading avatar:', error);
       toast({
         title: "Error",
-        description: "Failed to upload profile picture",
+        description: error instanceof Error ? error.message : "Failed to upload profile picture",
         variant: "destructive",
       });
     } finally {
@@ -91,6 +120,15 @@ export const ProfileEditor = () => {
   };
 
   const handleProfileUpdate = async () => {
+    if (!account) {
+      toast({
+        title: "Error",
+        description: "Please connect your wallet first",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       const { error } = await supabase
@@ -136,7 +174,7 @@ export const ProfileEditor = () => {
           <div>
             <Input
               type="file"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/gif"
               className="hidden"
               id="avatar-upload"
               onChange={handleAvatarUpload}
@@ -160,6 +198,7 @@ export const ProfileEditor = () => {
               value={profileData.full_name || ''}
               onChange={(e) => setProfileData(prev => ({ ...prev, full_name: e.target.value }))}
               placeholder="Your display name"
+              disabled={loading}
             />
           </div>
 
@@ -170,6 +209,7 @@ export const ProfileEditor = () => {
               value={profileData.favorite_artist || ''}
               onChange={(e) => setProfileData(prev => ({ ...prev, favorite_artist: e.target.value }))}
               placeholder="Who's your favorite artist or brand?"
+              disabled={loading}
             />
           </div>
 
@@ -181,6 +221,7 @@ export const ProfileEditor = () => {
               onChange={(e) => setProfileData(prev => ({ ...prev, bio: e.target.value }))}
               placeholder="Tell us about yourself and your interests..."
               className="min-h-[100px]"
+              disabled={loading}
             />
           </div>
 
