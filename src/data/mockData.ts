@@ -64,18 +64,6 @@ export const mockMissions: Mission[] = [
     expiresAt: null,
   },
   {
-    id: "arsenal-3",
-    title: "Arsenal Fan Art",
-    description: "Create and share Arsenal-themed fan art on social media",
-    imageUrl: "https://images.unsplash.com/photo-1580880783109-6746c2a12852",
-    reward: 150,
-    category: MissionCategory.CONTENT,
-    completedBy: [],
-    status: MissionStatus.ACTIVE,
-    createdAt: new Date("2025-03-15"),
-    expiresAt: null,
-  },
-  {
     id: "m1",
     title: "Poster Drop",
     description: "Put up 5 MinnieMissions posters in your local community (with permission!)",
