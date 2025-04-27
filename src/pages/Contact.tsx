@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Home, ChevronRight } from 'lucide-react';
+import { Layout } from "@/components/Layout";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -99,188 +98,181 @@ const Contact = () => {
   };
 
   return (
-    <div className="container mx-auto max-w-2xl px-4 py-8">
-      <nav className="flex items-center space-x-2 mb-6 text-sm text-gray-500">
-        <Link to="/" className="hover:text-minnie-purple flex items-center">
-          <Home size={16} className="mr-2" />
-          Home
-        </Link>
-        <ChevronRight size={16} />
-        <span className="text-minnie-purple">Contact</span>
-      </nav>
+    <Layout>
+      <div className="container mx-auto max-w-2xl px-4 py-8">
+        <h1 className="text-3xl font-bold text-center mb-8">Contact Minniemissions</h1>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-      <h1 className="text-3xl font-bold text-center mb-8">Contact Minniemissions</h1>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="your@email.com" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="your@email.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="fandom"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Fandom</FormLabel>
-                <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Input
-                        placeholder="Search for a fandom or type your own..." 
-                        value={field.value}
-                        onChange={(e) => {
-                          field.onChange(e.target.value);
-                          setCustomFandom(e.target.value);
-                        }}
-                      />
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="p-0" align="start">
-                    <Command>
-                      <CommandInput 
-                        placeholder="Search fandoms or type your own..." 
-                        value={field.value}
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          setCustomFandom(value);
-                        }}
-                      />
-                      <CommandList>
-                        <CommandEmpty>
-                          Continue typing to add your custom fandom
-                        </CommandEmpty>
-                        <CommandGroup>
-                          {fandoms.map((fandom) => (
-                            <CommandItem
-                              key={fandom.name}
-                              value={fandom.name}
-                              onSelect={(value) => {
-                                if (value === "Other") {
-                                  field.onChange(customFandom);
-                                } else {
-                                  field.onChange(value);
-                                }
-                                setOpenCombobox(false);
-                              }}
-                            >
-                              {fandom.artist === "Custom" ? (
-                                "Other - Add your own fandom"
-                              ) : (
-                                `${fandom.artist} - ${fandom.fanbase}`
-                              )}
-                              <Check
-                                className={cn(
-                                  "ml-auto h-4 w-4",
-                                  field.value === fandom.name
-                                    ? "opacity-100"
-                                    : "opacity-0"
+            <FormField
+              control={form.control}
+              name="fandom"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Fandom</FormLabel>
+                  <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Input
+                          placeholder="Search for a fandom or type your own..." 
+                          value={field.value}
+                          onChange={(e) => {
+                            field.onChange(e.target.value);
+                            setCustomFandom(e.target.value);
+                          }}
+                        />
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0" align="start">
+                      <Command>
+                        <CommandInput 
+                          placeholder="Search fandoms or type your own..." 
+                          value={field.value}
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setCustomFandom(value);
+                          }}
+                        />
+                        <CommandList>
+                          <CommandEmpty>
+                            Continue typing to add your custom fandom
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {fandoms.map((fandom) => (
+                              <CommandItem
+                                key={fandom.name}
+                                value={fandom.name}
+                                onSelect={(value) => {
+                                  if (value === "Other") {
+                                    field.onChange(customFandom);
+                                  } else {
+                                    field.onChange(value);
+                                  }
+                                  setOpenCombobox(false);
+                                }}
+                              >
+                                {fandom.artist === "Custom" ? (
+                                  "Other - Add your own fandom"
+                                ) : (
+                                  `${fandom.artist} - ${fandom.fanbase}`
                                 )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormDescription>
-                  Tell us which artist or community you'd like to see on Minniemissions
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                                <Check
+                                  className={cn(
+                                    "ml-auto h-4 w-4",
+                                    field.value === fandom.name
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    Tell us which artist or community you'd like to see on Minniemissions
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="university"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>University (Optional)</FormLabel>
-                <FormControl>
-                  <Input placeholder="Your university" {...field} />
-                </FormControl>
-                <FormDescription>
-                  Let us know which university you attend or attended
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="university"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>University (Optional)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your university" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Let us know which university you attend or attended
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Message</FormLabel>
-                <FormControl>
-                  <Textarea 
-                    placeholder="What would you like to tell us?" 
-                    className="min-h-[120px]" 
-                    {...field} 
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Message</FormLabel>
+                  <FormControl>
+                    <Textarea 
+                      placeholder="What would you like to tell us?" 
+                      className="min-h-[120px]" 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <FormField
-            control={form.control}
-            name="feedback"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Feedback (Optional)</FormLabel>
-                <FormControl>
-                  <Textarea 
-                    placeholder="Any suggestions or feedback for Minniemissions?" 
-                    className="min-h-[120px]" 
-                    {...field} 
-                  />
-                </FormControl>
-                <FormDescription>
-                  Help us improve by sharing your thoughts
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+            <FormField
+              control={form.control}
+              name="feedback"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Feedback (Optional)</FormLabel>
+                  <FormControl>
+                    <Textarea 
+                      placeholder="Any suggestions or feedback for Minniemissions?" 
+                      className="min-h-[120px]" 
+                      {...field} 
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Help us improve by sharing your thoughts
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-          <Button 
-            type="submit" 
-            className="w-full"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Submitting...' : 'Send Message'}
-          </Button>
-        </form>
-      </Form>
-    </div>
+            <Button 
+              type="submit" 
+              className="w-full"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Submitting...' : 'Send Message'}
+            </Button>
+          </form>
+        </Form>
+      </div>
+    </Layout>
   );
 };
 
