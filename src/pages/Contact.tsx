@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,7 +33,6 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { fandoms } from "@/data/fandoms";
 
-// Validation schema
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Invalid email address." }),
@@ -48,6 +46,7 @@ const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [openCombobox, setOpenCombobox] = useState(false);
+  const [customFandom, setCustomFandom] = useState('');
 
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
@@ -140,31 +139,48 @@ const Contact = () => {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Input
-                        placeholder="Search for a fandom..."
-                        {...field}
+                        placeholder="Search for a fandom or type your own..."
+                        value={field.value}
+                        onChange={(e) => {
+                          field.onChange(e.target.value);
+                          setCustomFandom(e.target.value);
+                        }}
                       />
                     </FormControl>
                   </PopoverTrigger>
                   <PopoverContent className="p-0" align="start">
                     <Command>
                       <CommandInput 
-                        placeholder="Search fandoms..." 
+                        placeholder="Search fandoms or type your own..." 
                         value={field.value}
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setCustomFandom(value);
+                        }}
                       />
                       <CommandList>
-                        <CommandEmpty>No fandom found.</CommandEmpty>
+                        <CommandEmpty>
+                          Continue typing to add your custom fandom
+                        </CommandEmpty>
                         <CommandGroup>
                           {fandoms.map((fandom) => (
                             <CommandItem
                               key={fandom.name}
                               value={fandom.name}
                               onSelect={(value) => {
-                                form.setValue("fandom", value);
+                                if (value === "Other") {
+                                  field.onChange(customFandom);
+                                } else {
+                                  field.onChange(value);
+                                }
                                 setOpenCombobox(false);
                               }}
                             >
-                              {fandom.artist} - {fandom.fanbase}
+                              {fandom.artist === "Custom" ? (
+                                "Other - Add your own fandom"
+                              ) : (
+                                `${fandom.artist} - ${fandom.fanbase}`
+                              )}
                               <Check
                                 className={cn(
                                   "ml-auto h-4 w-4",

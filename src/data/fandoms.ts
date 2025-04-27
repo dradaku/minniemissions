@@ -6,6 +6,7 @@ export type Fandom = {
 };
 
 export const fandoms: Fandom[] = [
+  { name: "Other", fanbase: "Other", artist: "Custom" },
   { name: "BeyHive", fanbase: "BeyHive", artist: "Beyoncé" },
   { name: "Swifties", fanbase: "Swifties", artist: "Taylor Swift" },
   { name: "ARMY", fanbase: "ARMY", artist: "BTS" },
@@ -17,3 +18,4 @@ export const fandoms: Fandom[] = [
   { name: "Directioners", fanbase: "Directioners", artist: "One Direction" },
   { name: "KatyCats", fanbase: "KatyCats", artist: "Katy Perry" },
 ];
+
