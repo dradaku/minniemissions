@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Home, ChevronRight } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -98,6 +100,15 @@ const Contact = () => {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-8">
+      <nav className="flex items-center space-x-2 mb-6 text-sm text-gray-500">
+        <Link to="/" className="hover:text-minnie-purple flex items-center">
+          <Home size={16} className="mr-2" />
+          Home
+        </Link>
+        <ChevronRight size={16} />
+        <span className="text-minnie-purple">Contact</span>
+      </nav>
+
       <h1 className="text-3xl font-bold text-center mb-8">Contact Minniemissions</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -139,7 +150,7 @@ const Contact = () => {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Input
-                        placeholder="Search for a fandom or type your own..."
+                        placeholder="Search for a fandom or type your own..." 
                         value={field.value}
                         onChange={(e) => {
                           field.onChange(e.target.value);
