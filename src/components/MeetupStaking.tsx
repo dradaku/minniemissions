@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -161,6 +162,15 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
 
   const confirmStake = () => {
     if (!selectedMeetup) return;
+    
+    if (!connected) {
+      toast({
+        title: "Wallet not connected",
+        description: "Please connect your wallet to stake vibe points.",
+      });
+      window.location.href = "/auth";
+      return;
+    }
     
     if (stakeAmount > vibePoints) {
       toast({
@@ -438,48 +448,90 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
               </div>
             </CardContent>
             <CardFooter>
-              {connected ? (
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button 
-                      variant={meetup.currentStaked >= meetup.stakingGoal ? "outline" : "default"} 
-                      className="w-full"
-                      onClick={() => handleStakeMeetup(meetup)}
-                      disabled={meetup.status === "completed"}
-                    >
-                      {meetup.currentStaked >= meetup.stakingGoal ? "Join Meetup" : "Stake & Join"}
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Stake Vibe Points for {meetup.title}</DialogTitle>
-                      <DialogDescription>
-                        Stake your vibe points to fund this meetup and secure your participation.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="py-4">
-                      <p className="text-sm mb-4">
-                        You have <span className="font-semibold">{vibePoints} VP</span> available to stake.
-                      </p>
-                      <div className="space-y-2">
-                        <Label htmlFor="stake-amount">Stake Amount (VP)</Label>
-                        <Input 
-                          id="stake-amount" 
-                          type="number" 
-                          min="10" 
-                          max={vibePoints} 
-                          value={stakeAmount} 
-                          onChange={(e) => setStakeAmount(parseInt(e.target.value))}
-                        />
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button 
+                    variant={meetup.currentStaked >= meetup.stakingGoal ? "outline" : "default"} 
+                    className="w-full"
+                    onClick={() => handleStakeMeetup(meetup)}
+                    disabled={meetup.status === "completed"}
+                  >
+                    {meetup.currentStaked >= meetup.stakingGoal ? "View Meetup Details" : "View Staking Details"}
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Stake Vibe Points for {meetup.title}</DialogTitle>
+                    <DialogDescription>
+                      Stake your vibe points to fund this meetup and secure your participation.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="py-4">
+                    <div className="space-y-4 mb-6">
+                      <div className="bg-muted/50 p-4 rounded-lg">
+                        <h3 className="font-medium mb-2">Meetup Details</h3>
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <span className="text-muted-foreground">Date:</span>
+                            <p>{new Date(selectedMeetup?.date || meetup.date).toLocaleDateString()}</p>
+                          </div>
+                          <div>
+                            <span className="text-muted-foreground">Location:</span>
+                            <p>{selectedMeetup?.location || meetup.location}</p>
+                          </div>
+                          <div className="col-span-2">
+                            <span className="text-muted-foreground">Description:</span>
+                            <p>{selectedMeetup?.description || meetup.description}</p>
+                          </div>
+                        </div>
                       </div>
-                      <p className="text-xs text-gray-500 mt-2">
-                        Your stake helps fund venue costs, refreshments, and activities for this meetup.
-                      </p>
+                      
+                      <div className="space-y-2">
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                          <div 
+                            className="bg-primary h-2.5 rounded-full" 
+                            style={{ width: `${(meetup.currentStaked / meetup.stakingGoal) * 100}%` }}
+                          ></div>
+                        </div>
+                        <div className="flex justify-between text-xs text-muted-foreground">
+                          <span>{meetup.currentStaked} VP staked</span>
+                          <span>Goal: {meetup.stakingGoal} VP</span>
+                        </div>
+                      </div>
                     </div>
-                    <DialogFooter>
-                      <DialogClose asChild>
-                        <Button variant="outline" disabled={isStaking}>Cancel</Button>
-                      </DialogClose>
+                  
+                    {connected ? (
+                      <>
+                        <p className="text-sm mb-4">
+                          You have <span className="font-semibold">{vibePoints} VP</span> available to stake.
+                        </p>
+                        <div className="space-y-2">
+                          <Label htmlFor="stake-amount">Stake Amount (VP)</Label>
+                          <Input 
+                            id="stake-amount" 
+                            type="number" 
+                            min="10" 
+                            max={vibePoints} 
+                            value={stakeAmount} 
+                            onChange={(e) => setStakeAmount(parseInt(e.target.value))}
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">
+                          Your stake helps fund venue costs, refreshments, and activities for this meetup.
+                        </p>
+                      </>
+                    ) : (
+                      <div className="bg-amber-50 p-4 rounded-lg border border-amber-200 text-amber-800">
+                        <p className="text-sm font-medium mb-1">Connect your wallet to participate</p>
+                        <p className="text-xs">You need to connect your wallet to stake vibe points and join this meetup.</p>
+                      </div>
+                    )}
+                  </div>
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button variant="outline" disabled={isStaking}>Cancel</Button>
+                    </DialogClose>
+                    {connected ? (
                       <Button onClick={confirmStake} disabled={isStaking}>
                         {isStaking ? (
                           <>
@@ -490,18 +542,14 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
                           `Stake ${stakeAmount} VP`
                         )}
                       </Button>
-                    </DialogFooter>
-                  </DialogContent>
-                </Dialog>
-              ) : (
-                <Button 
-                  variant="outline" 
-                  className="w-full"
-                  onClick={() => window.location.href = "/auth"}
-                >
-                  Connect Wallet to Join Meetup
-                </Button>
-              )}
+                    ) : (
+                      <Button onClick={() => window.location.href = "/auth"}>
+                        Connect Wallet
+                      </Button>
+                    )}
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </CardFooter>
           </Card>
         ))}
