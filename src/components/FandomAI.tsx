@@ -2,10 +2,11 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2 } from "lucide-react";
+import { Loader2, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Fandom } from "@/data/fandoms";
 import { supabase } from "@/integrations/supabase/client";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface FandomAIProps {
   fandom: Fandom;
@@ -15,6 +16,7 @@ export const FandomAI: React.FC<FandomAIProps> = ({ fandom }) => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const generateAIResponse = async () => {
     if (!question.trim()) {
@@ -23,6 +25,7 @@ export const FandomAI: React.FC<FandomAIProps> = ({ fandom }) => {
     }
 
     setLoading(true);
+    setError(null);
     
     try {
       const { data, error } = await supabase.functions.invoke('fandom-ai', {
@@ -36,13 +39,20 @@ export const FandomAI: React.FC<FandomAIProps> = ({ fandom }) => {
 
       if (data.error) {
         console.error("Error in AI response:", data.error);
-        throw new Error(data.error || 'Failed to process your question');
+        
+        // Check for OpenAI quota exceeded error
+        if (data.error.includes("exceeded your current quota")) {
+          setError("The AI service has reached its quota limit. Please try again later.");
+        } else {
+          setError(data.error || 'Failed to process your question');
+        }
+        return;
       }
 
       setAnswer(data.response);
     } catch (error) {
       console.error("Error generating AI response:", error);
-      toast.error("Failed to generate response. Please try again.");
+      setError("Failed to generate response. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -77,7 +87,17 @@ export const FandomAI: React.FC<FandomAIProps> = ({ fandom }) => {
         </Button>
       </div>
 
-      {answer && (
+      {error && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>
+            {error}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {answer && !error && (
         <div className="p-4 bg-white border rounded-md">
           <h3 className="text-lg font-medium mb-2">AI Response</h3>
           <div className="whitespace-pre-line text-sm">
