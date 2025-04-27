@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/popover";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { fandoms } from "@/data/fandoms";
+import { sportsTeams } from "@/data/sportsTeams";
 import { FandomAI } from "@/components/FandomAI";
 
 const contactFormSchema = z.object({
@@ -40,6 +40,7 @@ const contactFormSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
   fandom: z.string().min(2, { message: "Please specify your fandom." }),
   university: z.string().optional(),
+  favoriteTeam: z.string().optional(),
   message: z.string().min(10, { message: "Message must be at least 10 characters." }),
   feedback: z.string().optional()
 });
@@ -48,6 +49,7 @@ const Contact = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [openCombobox, setOpenCombobox] = useState(false);
+  const [openTeamCombobox, setOpenTeamCombobox] = useState(false);
   const [customFandom, setCustomFandom] = useState('');
   const [showAIAssistance, setShowAIAssistance] = useState(false);
 
@@ -58,6 +60,7 @@ const Contact = () => {
       email: "",
       fandom: "",
       university: "",
+      favoriteTeam: "",
       message: "",
       feedback: ""
     }
@@ -74,6 +77,7 @@ const Contact = () => {
           email: values.email,
           fandom: values.fandom,
           university: values.university || null,
+          favorite_team: values.favoriteTeam || null,
           message: values.message,
           feedback: values.feedback || null
         });
@@ -219,6 +223,88 @@ const Contact = () => {
                   </FormControl>
                   <FormDescription>
                     Let us know which university you attend or attended
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="favoriteTeam"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Favorite Sports Team (Optional)</FormLabel>
+                  <Popover open={openTeamCombobox} onOpenChange={setOpenTeamCombobox}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Input
+                          placeholder="Select your favorite team..."
+                          value={field.value}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          onClick={() => setOpenTeamCombobox(true)}
+                        />
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="p-0" align="start">
+                      <Command>
+                        <CommandInput placeholder="Search teams..." />
+                        <CommandList>
+                          <CommandEmpty>No team found</CommandEmpty>
+                          <CommandGroup heading="Football Teams">
+                            {sportsTeams
+                              .filter(team => team.sport === 'football')
+                              .map((team) => (
+                                <CommandItem
+                                  key={team.name}
+                                  value={team.name}
+                                  onSelect={(value) => {
+                                    field.onChange(value);
+                                    setOpenTeamCombobox(false);
+                                  }}
+                                >
+                                  {team.name}
+                                  <Check
+                                    className={cn(
+                                      "ml-auto h-4 w-4",
+                                      field.value === team.name
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                </CommandItem>
+                              ))}
+                          </CommandGroup>
+                          <CommandGroup heading="Basketball Teams">
+                            {sportsTeams
+                              .filter(team => team.sport === 'basketball')
+                              .map((team) => (
+                                <CommandItem
+                                  key={team.name}
+                                  value={team.name}
+                                  onSelect={(value) => {
+                                    field.onChange(value);
+                                    setOpenTeamCombobox(false);
+                                  }}
+                                >
+                                  {team.name}
+                                  <Check
+                                    className={cn(
+                                      "ml-auto h-4 w-4",
+                                      field.value === team.name
+                                        ? "opacity-100"
+                                        : "opacity-0"
+                                    )}
+                                  />
+                                </CommandItem>
+                              ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <FormDescription>
+                    Select your favorite football or basketball team
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
