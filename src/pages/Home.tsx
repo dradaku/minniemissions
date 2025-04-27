@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { useWallet } from "@/contexts/WalletContext";
 import { Layout } from "@/components/Layout";
@@ -21,41 +22,40 @@ const Home = () => {
 
   return (
     <Layout>
-      {/* Hero Section with updated design */}
-      <section className="py-16 px-4 text-center relative">
-        <div className="max-w-4xl mx-auto p-8 rounded-xl bg-gradient-to-r from-minnie-red to-minnie-dark text-white shadow-lg relative overflow-hidden">
-          <div className="absolute inset-0 bg-polkadot-pattern opacity-10" />
-          <div className="relative z-10">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Complete Missions. Earn Rewards.</h1>
-            <p className="text-xl mb-8 opacity-90">
-              Connect with your favorite artists and earn Vibe Points by completing missions.
-            </p>
-            
-            {connected ? (
-              <div className="flex flex-col items-center gap-4">
-                <div className="text-2xl font-bold bg-white/20 px-5 py-2 rounded-full inline-flex items-center">
-                  <span className="mr-2">⚡</span>
-                  <span>{vibePoints} Vibe Points</span>
-                </div>
-                <Link to="/missions">
-                  <Button 
-                    size="lg"
-                    className="bg-white hover:bg-white/90 text-minnie-purple"
-                  >
-                    View All Missions
-                  </Button>
-                </Link>
+      {/* Hero Section */}
+      <section className="py-16 px-4 text-center">
+        <div 
+          className="max-w-4xl mx-auto p-8 rounded-xl bg-gradient-to-br from-minnie-purple to-minnie-blue text-white shadow-lg"
+        >
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Complete Missions. Earn Rewards.</h1>
+          <p className="text-xl mb-8 opacity-90">
+            Connect with your favorite artists and earn Vibe Points by completing missions.
+          </p>
+          
+          {connected ? (
+            <div className="flex flex-col items-center gap-4">
+              <div className="text-2xl font-bold bg-white/20 px-5 py-2 rounded-full inline-flex items-center">
+                <span className="mr-2">⚡</span>
+                <span>{vibePoints} Vibe Points</span>
               </div>
-            ) : (
-              <Button 
-                size="lg"
-                className="bg-white hover:bg-white/90 text-minnie-red"
-                onClick={connect}
-              >
-                Connect Wallet to Start
-              </Button>
-            )}
-          </div>
+              <Link to="/missions">
+                <Button 
+                  size="lg"
+                  className="bg-white hover:bg-white/90 text-minnie-purple"
+                >
+                  View All Missions
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <Button 
+              size="lg"
+              className="bg-white hover:bg-white/90 text-minnie-purple"
+              onClick={connect}
+            >
+              Connect Wallet to Start
+            </Button>
+          )}
         </div>
       </section>
 
@@ -106,8 +106,7 @@ const Home = () => {
 
       {/* VP to Token Conversion Section */}
       {connected && (
-        <section className="py-12 rounded-lg relative overflow-hidden">
-          <div className="absolute inset-0 bg-polkadot-pattern opacity-[0.02]" />
+        <section className="py-12 bg-gray-50 rounded-lg">
           <div className="max-w-4xl mx-auto px-4">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold mb-2">Convert Your Vibe Points</h2>
