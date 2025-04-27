@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { useWallet } from "@/contexts/WalletContext";
 import { Layout } from "@/components/Layout";
@@ -9,6 +8,7 @@ import { useState } from "react";
 import { convertVpToDot, convertVpToUsdc } from "@/utils/walletUtils";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { getActiveMissions } from "@/data/mockData";
+import { ImageSlideshow } from "@/components/ImageSlideshow";
 
 const Home = () => {
   const { connected, connect, vibePoints, convertToToken, isConverting } = useWallet();
@@ -24,9 +24,7 @@ const Home = () => {
     <Layout>
       {/* Hero Section */}
       <section className="py-16 px-4 text-center">
-        <div 
-          className="max-w-4xl mx-auto p-8 rounded-xl bg-gradient-to-br from-minnie-purple to-minnie-blue text-white shadow-lg"
-        >
+        <div className="max-w-4xl mx-auto p-8 rounded-xl bg-gradient-to-br from-minnie-purple to-minnie-blue text-white shadow-lg">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Complete Missions. Earn Rewards.</h1>
           <p className="text-xl mb-8 opacity-90">
             Connect with your favorite artists and earn Vibe Points by completing missions.
@@ -57,6 +55,11 @@ const Home = () => {
             </Button>
           )}
         </div>
+      </section>
+
+      {/* Slideshow Section */}
+      <section className="py-12">
+        <ImageSlideshow />
       </section>
 
       {/* Features Section */}
