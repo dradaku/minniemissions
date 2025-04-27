@@ -240,7 +240,7 @@ const Contact = () => {
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Input
-                          placeholder="Select your favorite team..."
+                          placeholder="Search teams or enter your own..."
                           value={field.value}
                           onChange={(e) => field.onChange(e.target.value)}
                           onClick={() => setOpenTeamCombobox(true)}
@@ -249,9 +249,18 @@ const Contact = () => {
                     </PopoverTrigger>
                     <PopoverContent className="p-0" align="start">
                       <Command>
-                        <CommandInput placeholder="Search teams..." />
+                        <CommandInput 
+                          placeholder="Search teams or type your own..."
+                          value={field.value}
+                          onValueChange={(value) => {
+                            field.onChange(value);
+                            setOpenTeamCombobox(false);
+                          }}
+                        />
                         <CommandList>
-                          <CommandEmpty>No team found</CommandEmpty>
+                          <CommandEmpty>
+                            Continue typing to add your custom team
+                          </CommandEmpty>
                           <CommandGroup heading="Football Teams">
                             {sportsTeams
                               .filter(team => team.sport === 'football')
@@ -305,7 +314,7 @@ const Contact = () => {
                     </PopoverContent>
                   </Popover>
                   <FormDescription>
-                    Select your favorite football or basketball team
+                    Select from the list or type your own team name
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
