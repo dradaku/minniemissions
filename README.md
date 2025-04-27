@@ -33,16 +33,35 @@ While artists and brands can:
 - Wallet connection (Polkadot.js)
 - Recharts for data visualization
 
-### Smart Contract Layer (Substrate/Moonbeam)
-**Note:** The current implementation includes frontend UI mockups. The smart contract would be written in Ink! and deployed to a Substrate node or Moonbeam in a full implementation.
+- ## 🛠 Core Features
+- Wallet connection via Polkadot.js
+- Mission dashboard and submission system
+- QR code generation for tracking referrals
+- Vibe Points (VP) tracking and smart contract payout logic
+- Referral bonus system and streak tracking
+- Admin portal for artists and brands
+- KYC verification for local meetups
+- NFC membership cards (roadmap)
+- VP to DOT and USDC conversion (Moonbeam integration - roadmap)
 
+## 🧱 Technology Stack
+| Layer | Tech |
+|:--|:--|
+| Smart Contract | Ink! on Polkadot Asset Hub |
+| Wallet Connection | Polkadot.js extension |
+| Frontend | React + Vite + TailwindCSS |
+| Backend | Node.js + Supabase |
+| Storage | IPFS (future roadmap) |
+| NFC | Planned for in-person proof and perks |
+
+### Smart Contract Layer 
 Key contract functions:
 - `split_payment(fan)` - Distribute funds among artist, treasury, and fan
 - `get_vp(fan)` - Retrieve on-chain Vibe Points
 - `update_artist()` and `update_treasury()` - Admin-only functions
 
 ### Backend
-**Note:** The current implementation uses mock data. A full implementation would include:
+**Note:** A full implementation would include:
 - Node.js (Express/NestJS) backend
 - QR code generation and tracking
 - Referral system with VP boosts
