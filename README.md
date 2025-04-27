@@ -4,6 +4,8 @@
 
 Minniemissions is a Web3 Street Team Platform (dApp) built on Polkadot/Substrate that enables artists and brands to engage with their superfans through missions, rewards, and referrals.
 
+Hackathon video (Harvard Blockchain Conference): https://drive.google.com/file/d/1xGOoapeS1KBzYbHHDHvfxh1cguI3gVSY/view?usp=sharing
+
 ## 🎯 Overview
 
 Minniemissions allows fans to:
