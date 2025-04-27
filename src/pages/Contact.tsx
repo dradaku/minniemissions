@@ -33,6 +33,7 @@ import {
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { fandoms } from "@/data/fandoms";
+import { FandomAI } from "@/components/FandomAI";
 
 const contactFormSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -48,6 +49,7 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [openCombobox, setOpenCombobox] = useState(false);
   const [customFandom, setCustomFandom] = useState('');
+  const [showAIAssistance, setShowAIAssistance] = useState(false);
 
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
@@ -261,6 +263,25 @@ const Contact = () => {
                 </FormItem>
               )}
             />
+
+            <div className="flex items-center justify-center mb-4">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setShowAIAssistance(!showAIAssistance)}
+                className="w-full max-w-xs"
+              >
+                {showAIAssistance ? 'Hide AI Assistance' : 'Get AI Help Crafting Your Message'}
+              </Button>
+            </div>
+
+            {showAIAssistance && form.watch('fandom') && (
+              <FandomAI fandom={{ 
+                name: form.watch('fandom'), 
+                fanbase: form.watch('fandom'), 
+                artist: form.watch('fandom') 
+              }} />
+            )}
 
             <Button 
               type="submit" 
