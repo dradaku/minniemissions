@@ -33,6 +33,7 @@ import { Badge } from "@/components/ui/badge";
 import { fandoms } from "@/data/fandoms";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { useWallet } from "@/contexts/WalletContext";
 
 interface MeetupStakingProps {
   vibePoints: number;
@@ -98,12 +99,12 @@ const mockMeetups: Meetup[] = [
 
 export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
   const { toast } = useToast();
+  const { connected } = useWallet();
   const [meetups, setMeetups] = useState<Meetup[]>(mockMeetups);
   const [stakeAmount, setStakeAmount] = useState<number>(50);
   const [selectedMeetup, setSelectedMeetup] = useState<Meetup | null>(null);
   const [isStaking, setIsStaking] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
-  const [connected, setConnected] = useState(false);
   const [kycDialogOpen, setKycDialogOpen] = useState(false);
   const [kycVerified, setKycVerified] = useState(false);
   const [kycProcessing, setKycProcessing] = useState(false);
@@ -322,53 +323,73 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
         </Card>
       )}
 
-      <Dialog open={kycDialogOpen} onOpenChange={setKycDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>KYC Verification Required</DialogTitle>
-            <DialogDescription>
-              For safety and accountability, we require identity verification before allowing users to create meetups.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <p className="text-sm">
-              Our KYC process ensures that all meetup organizers are verified, creating a safe environment for all participants.
-            </p>
-            <Separator />
-            <div className="grid gap-2">
-              <Label htmlFor="full-name">Full Legal Name</Label>
-              <Input id="full-name" placeholder="Enter your full name" />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="id-number">ID Number</Label>
-              <Input id="id-number" placeholder="Government ID number" />
-            </div>
-            <div className="grid gap-2">
-              <Label>ID Document</Label>
-              <div className="border-2 border-dashed rounded-md p-6 text-center cursor-pointer hover:bg-gray-50">
-                <p className="text-sm text-gray-500">Click to upload your ID document</p>
+      {connected && (
+        <Dialog open={kycDialogOpen} onOpenChange={setKycDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>KYC Verification Required</DialogTitle>
+              <DialogDescription>
+                For safety and accountability, we require identity verification before allowing users to create meetups.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4 py-4">
+              <p className="text-sm">
+                Our KYC process ensures that all meetup organizers are verified, creating a safe environment for all participants.
+              </p>
+              <Separator />
+              <div className="grid gap-2">
+                <Label htmlFor="full-name">Full Legal Name</Label>
+                <Input id="full-name" placeholder="Enter your full name" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="id-number">ID Number</Label>
+                <Input id="id-number" placeholder="Government ID number" />
+              </div>
+              <div className="grid gap-2">
+                <Label>ID Document</Label>
+                <div className="border-2 border-dashed rounded-md p-6 text-center cursor-pointer hover:bg-gray-50">
+                  <p className="text-sm text-gray-500">Click to upload your ID document</p>
+                </div>
               </div>
             </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setKycDialogOpen(false)} disabled={kycProcessing}>
-              Cancel
-            </Button>
-            <Button onClick={simulateKycVerification} disabled={kycProcessing}>
-              {kycProcessing ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Verifying...
-                </>
-              ) : (
-                "Submit for Verification"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setKycDialogOpen(false)} disabled={kycProcessing}>
+                Cancel
+              </Button>
+              <Button onClick={simulateKycVerification} disabled={kycProcessing}>
+                {kycProcessing ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Verifying...
+                  </>
+                ) : (
+                  "Submit for Verification"
+                )}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
 
-      <h2 className="text-2xl font-bold mt-8">Available Meetups</h2>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold">Available Meetups</h2>
+          {!connected && (
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = "/auth"}
+              className="ml-4"
+            >
+              Connect Wallet to Create & Join Meetups
+            </Button>
+          )}
+        </div>
+        
+        <p className="text-sm text-muted-foreground">
+          Browse upcoming MinnieSquad meetups. Connect your wallet to create new meetups or stake VP to join existing ones.
+        </p>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {meetups.map((meetup) => (
           <Card key={meetup.id} className="overflow-hidden">
@@ -403,15 +424,17 @@ export const MeetupStaking: React.FC<MeetupStakingProps> = ({ vibePoints }) => {
                 </div>
               </div>
               
-              <div className="w-full bg-gray-200 rounded-full h-2.5">
-                <div 
-                  className="bg-primary h-2.5 rounded-full" 
-                  style={{ width: `${(meetup.currentStaked / meetup.stakingGoal) * 100}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span>{meetup.currentStaked} VP staked</span>
-                <span>Goal: {meetup.stakingGoal} VP</span>
+              <div className="space-y-2">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                  <div 
+                    className="bg-primary h-2.5 rounded-full" 
+                    style={{ width: `${(meetup.currentStaked / meetup.stakingGoal) * 100}%` }}
+                  ></div>
+                </div>
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>{meetup.currentStaked} VP staked</span>
+                  <span>Goal: {meetup.stakingGoal} VP</span>
+                </div>
               </div>
             </CardContent>
             <CardFooter>
