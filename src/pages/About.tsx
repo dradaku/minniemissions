@@ -1,4 +1,3 @@
-
 import { Layout } from "@/components/Layout";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -38,7 +37,7 @@ const About = () => {
           </CardContent>
         </Card>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           <Card>
             <CardContent className="pt-6">
               <h3 className="text-xl font-bold mb-3">Our Mission</h3>
@@ -57,6 +56,46 @@ const About = () => {
             </CardContent>
           </Card>
         </div>
+
+        <Card className="mb-8">
+          <CardContent className="pt-6">
+            <h2 className="text-2xl font-bold mb-6">Community & Events</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <img 
+                  src="/lovable-uploads/7b10f320-72bb-473b-a224-40f304320ec2.png"
+                  alt="Performance with dancers in colorful costumes"
+                  className="rounded-lg mb-4 w-full h-64 object-cover"
+                />
+                <img 
+                  src="/lovable-uploads/a70206d5-1609-44f7-8cd2-682d1b5135a4.png"
+                  alt="Team wearing Vibes with Dr Adaku shirts"
+                  className="rounded-lg mb-4 w-full h-64 object-cover"
+                />
+                <img 
+                  src="/lovable-uploads/a5d49ad8-2888-4bc4-8329-8855180bfe43.png"
+                  alt="Fans enjoying at an event"
+                  className="rounded-lg mb-4 w-full h-64 object-cover"
+                />
+              </div>
+              <div>
+                <img 
+                  src="/lovable-uploads/d0ac1ad6-bb54-4caa-8ba4-7ff359be8e20.png"
+                  alt="Group photo with fans"
+                  className="rounded-lg mb-4 w-full h-64 object-cover"
+                />
+                <img 
+                  src="/lovable-uploads/7fc1fbd8-0dcd-40f4-81f5-e547273eebcc.png"
+                  alt="Performance with ballet dancers"
+                  className="rounded-lg mb-4 w-full h-64 object-cover"
+                />
+                <p className="text-gray-600 mt-4">
+                  Join our vibrant community of music lovers and be part of something special. From live performances to meet-and-greets, we're creating unforgettable moments together.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </Layout>
   );
