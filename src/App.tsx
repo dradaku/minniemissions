@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import Missions from "./pages/Missions";
 import Leaderboard from "./pages/Leaderboard";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
+import Contact from "./pages/Contact";  // Add this import
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,7 @@ const App = () => (
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />  {/* Add this route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

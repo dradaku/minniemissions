@@ -10,7 +10,8 @@ import {
   Wallet,
   LayoutList,
   Trophy,
-  Info
+  Info,
+  MessageSquare
 } from "lucide-react";
 import { useState } from "react";
 
@@ -61,6 +62,10 @@ export const Header = () => {
             <Link to="/profile" className="text-white hover:text-minnie-light flex items-center gap-1">
               <User size={18} />
               <span>Profile</span>
+            </Link>
+            <Link to="/contact" className="text-white hover:text-minnie-light flex items-center gap-1">
+              <MessageSquare size={18} />
+              <span>Contact</span>
             </Link>
 
             <div className="flex items-center gap-4">
@@ -137,6 +142,13 @@ export const Header = () => {
               onClick={() => setMenuOpen(false)}
             >
               Profile
+            </Link>
+            <Link 
+              to="/contact" 
+              className="block text-white py-2 px-4 rounded hover:bg-white/10"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
             </Link>
             
             {connected ? (
