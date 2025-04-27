@@ -21,5 +21,8 @@ export const fandoms: Fandom[] = [
   { name: "30BG", fanbase: "30BG", artist: "Davido" },
   { name: "Wizkid FC", fanbase: "Wizkid FC", artist: "Wizkid" },
   { name: "Starr Gang", fanbase: "Starr Gang", artist: "Ayra Starr" },
-  { name: "Mavins", fanbase: "Mavins", artist: "Mavins" }
+  { name: "Mavins", fanbase: "Mavins", artist: "Mavins" },
+  { name: "Gunners", fanbase: "Gunners", artist: "Arsenal" },
+  { name: "A Stars", fanbase: "A Stars", artist: "EasyA" }
 ];
+
